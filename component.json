@@ -4,6 +4,12 @@
     "docsUrl": "https://www.mvise.de",
     "credentials": {
         "fields": {
+            "company_domain": {
+                "viewClass": "TextFieldView",
+                "label": "Company domain",
+                "required": true,
+                "placeholder": "The company domain used in pipedrive"
+            },
             "token": {
                 "viewClass": "TextFieldView",
                 "label": "API token",
