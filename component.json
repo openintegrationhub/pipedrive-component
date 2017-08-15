@@ -1,0 +1,26 @@
+{
+    "title": "Pipedrive",
+    "description": "elastic.io integration component for pipedrive",
+    "docsUrl": "https://www.mvise.de",
+    "credentials": {
+        "fields": {
+            "token": {
+                "viewClass": "TextFieldView",
+                "label": "API token",
+                "required": true,
+                "placeholder": "The API token which will be used to authenticated the component with pipedrive"
+            }
+        }
+    },
+    "triggers": {},
+    "actions": {
+        "createDeal": {
+            "main": "./lib/triggers/createDeal.js",
+            "title": "Create a new deal in pipdrive",
+            "fields": {},
+            "metadata": {
+                "in": "./schemas/createDeal.in.json"
+            }
+        }
+    }
+}
