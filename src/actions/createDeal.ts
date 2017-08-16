@@ -1,6 +1,13 @@
 import { isUndefined } from 'lodash';
-import Axios from 'axios';
 import * as util from "util";
+
+import { Deal } from '../models/deal';
+import { Status } from '../models/enums';
+import { Note } from '../models/note';
+import { Organisation } from '../models/organisation';
+import { Person } from '../models/person';
+
+import { APIClient } from '../apiclient';
 
 exports.process = createDeal;
 
@@ -59,29 +66,21 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
         throw new Error('API token is undefined');
     }
 
-    // Data
-    let data = <CreateDealInMessage>msg.body;
+    // Client init
     cfg.token = cfg.token.trim();
     cfg.company_domain = cfg.company_domain.trim();
+    let client = new APIClient(cfg.company_domain, cfg.token);
 
-    let axios = Axios.create({
-        baseURL: 'https://' + cfg.company_domain + '.pipedrive.com/v1',
-        params: { 'api_token': cfg.token }
-    });
+    // Get the input data
+    let data = <CreateDealInMessage>msg.body;
 
     // Create Organisation
     console.log('Creating organisation: ' + data.company);
     let organisation = {
         name: data.company,
     } as Organisation;
-
-    let response = await axios.post('/organisations', organisation, { responseType: 'json' });
-    let result = <APIResult>response.data;
-    if (!result.success) {
-        throw new Error('could not create company');
-    }
-    organisation = <Organisation>result.data;
-    console.log('Created company: ' + organisation);
+    organisation = await client.createOrganisation(organisation);
+    console.log('Created organisation: ' + organisation.name);
 
     // Create Person
     console.log('Creating person: ' + data.contact_name);
@@ -91,14 +90,8 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
         phone: new Array<string>(data.contact_phone),
         org_id: organisation.id,
     } as Person;
-
-    response = await axios.post('/persons', person, { responseType: 'json' });
-    result = <APIResult>response.data;
-    if (!result.success) {
-        throw new Error('could not create person');
-    }
-    person = <Person>result.data;
-    console.log('Created person: ' + person);
+    person = await client.createPerson(person);
+    console.log('Created person: ' + person.name);
 
     // Create Deal
     console.log('Creating deal: ');
@@ -108,14 +101,8 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
         org_id: organisation.id,
         status: Status.Open,
     } as Deal;
-
-    response = await axios.post('/deals', deal, { responseType: 'json' });
-    result = <APIResult>response.data;
-    if (!result.success) {
-        throw new Error('could not create deal');
-    }
-    deal = <Deal>result.data;
-    console.log('Created deal: ' + deal);
+    deal = await client.createDeal(deal);
+    console.log('Created deal: ' + deal.title);
 
     // Create Note
     console.log('Creating note: ');
@@ -135,14 +122,8 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
         {6}
         `, data.contact_name, data.contact_email, data.contact_phone, data.role, data.company, data.company_size, data.message),
     } as Note;
-
-    response = await axios.post('/notes', note, { responseType: 'json' });
-    result = <APIResult>response.data;
-    if (!result.success) {
-        throw new Error('could not create note');
-    }
-    note = <Note>result.data;
-    console.log('Created note: ' + note);
+    note = await client.createNote(note);
+    console.log('Created note for deal_id : ' + note.deal_id);
 
     // Return message
     let ret = <CreateDealOutMessage>data;
@@ -150,56 +131,3 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
     return ret;
 }
 
-export enum Visiblity { OwnerAndFollowers = 1, EntireCompany = 3 }
-export enum Status { Open = 'Open', Won = 'Won', Lost = 'Lost' }
-
-export interface Organisation {
-    id: number;
-    name: string;
-    owner_id: number;
-    org_id: number;
-    email: Array<string>;
-    phone: Array<string>;
-    visible_to: Visiblity;
-    add_time: string;
-}
-
-export interface Person {
-    id: number;
-    name: string;
-    owner_id: number;
-    org_id: number;
-    email: Array<string>;
-    phone: Array<string>;
-    visible_to: Visiblity;
-    add_time: string;
-}
-
-export interface Deal {
-    id: number;
-    title: string;
-    value: number;
-    currency: string;
-    user_id: string;
-    person_id: number;
-    org_id: number;
-    stage_id: number;
-    status: Status;
-    lost_reason: string;
-    visible_to: Visiblity;
-    add_time: string;
-}
-
-export interface Note {
-    id: number;
-    content: string;
-    deal_id: number;
-    person_id: number;
-    org_id: number;
-}
-
-export interface APIResult {
-    success: boolean;
-    data: any;
-    related_objects: any;
-}

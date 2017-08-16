@@ -1,9 +1,16 @@
 const trigger = require("../../src/actions/createDeal");
 
-import { createDeal, CreateDealConfig, CreateDealInMessage, Organisation, Person, Deal, Note, Status, APIResult } from "../../src/actions/createDeal";
 import { messages } from "elasticio-node";
-import * as nock from "nock";
 import { readFile } from "fs-extra";
+import * as nock from "nock";
+
+import { createDeal, CreateDealConfig, CreateDealInMessage } from "../../src/actions/createDeal";
+import { Deal } from '../../src/models/deal';
+import { Status } from '../../src/models/enums';
+import { Note } from '../../src/models/note';
+import { Organisation } from '../../src/models/organisation';
+import { Person } from '../../src/models/person';
+import { APIClient, APIResult } from '../../src/apiclient';
 
 describe("createDeal()", () => {
     let message = messages.newEmptyMessage();
