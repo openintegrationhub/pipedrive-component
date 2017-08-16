@@ -1,8 +1,8 @@
 {
-    "name": "pipedriver-component",
+    "name": "pipedrive-component",
     "version": "0.0.1",
-    "description": "pipedriver component",
-    "homepage": "https://www.pipedriver.org/",
+    "description": "pipedrive component",
+    "homepage": "https://www.pipedrive.org/",
     "author": {
         "name": "mVISE AG",
         "email": "info@mvise.de",
