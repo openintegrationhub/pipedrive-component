@@ -25,7 +25,8 @@
             "title": "Create a new deal in pipdrive",
             "fields": {},
             "metadata": {
-                "in": "./schemas/createDeal.in.json"
+                "in": "./schemas/createDeal.in.json",
+                "out": "./schemas/createDeal.out.json"
             }
         }
     }
