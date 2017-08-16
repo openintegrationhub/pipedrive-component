@@ -21,7 +21,7 @@
     "triggers": {},
     "actions": {
         "createDeal": {
-            "main": "./lib/triggers/createDeal.js",
+            "main": "./lib/actions/createDeal.js",
             "title": "Create a new deal in pipdrive",
             "fields": {},
             "metadata": {
