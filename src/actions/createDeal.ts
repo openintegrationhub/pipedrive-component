@@ -4,7 +4,7 @@ import * as util from "util";
 import { Deal } from '../models/deal';
 import { Status } from '../models/enums';
 import { Note } from '../models/note';
-import { Organisation } from '../models/organisation';
+import { Organization } from '../models/organization';
 import { Person } from '../models/person';
 
 import { APIClient } from '../apiclient';
@@ -74,13 +74,13 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
     // Get the input data
     let data = <CreateDealInMessage>msg.body;
 
-    // Create Organisation
-    console.log('Creating organisation: ' + data.company);
-    let organisation = {
+    // Create Organization
+    console.log('Creating organization: ' + data.company);
+    let organization = {
         name: data.company,
-    } as Organisation;
-    organisation = await client.createOrganisation(organisation);
-    console.log('Created organisation: ' + organisation.name);
+    } as Organization;
+    organization = await client.createOrganization(organization);
+    console.log('Created organization: ' + organization.name);
 
     // Create Person
     console.log('Creating person: ' + data.contact_name);
@@ -88,7 +88,7 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
         name: data.contact_name,
         email: new Array<string>(data.contact_email),
         phone: new Array<string>(data.contact_phone),
-        org_id: organisation.id,
+        org_id: organization.id,
     } as Person;
     person = await client.createPerson(person);
     console.log('Created person: ' + person.name);
@@ -98,7 +98,7 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
     let deal = {
         title: 'Website: ' + data.company,
         person_id: person.id,
-        org_id: organisation.id,
+        org_id: organization.id,
         status: Status.Open,
     } as Deal;
     deal = await client.createDeal(deal);

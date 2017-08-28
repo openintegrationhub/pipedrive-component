@@ -3,7 +3,7 @@ import { AxiosInstance } from 'axios';
 
 import { Deal } from './models/deal';
 import { Note } from './models/note';
-import { Organisation } from './models/organisation';
+import { Organization } from './models/organization';
 import { Person } from './models/person';
 
 export interface APIResult {
@@ -30,8 +30,8 @@ export class APIClient {
         return this.create<Note>(note, "notes");
     }
 
-    async createOrganisation(organisation: Organisation) {
-        return this.create<Organisation>(organisation, "organisations");
+    async createOrganization(organization: Organization) {
+        return this.create<Organization>(organization, "organizations");
     }
 
     async createPerson(person: Person) {

@@ -8,7 +8,7 @@ import { createDeal, CreateDealConfig, CreateDealInMessage } from "../../src/act
 import { Deal } from '../../src/models/deal';
 import { Status } from '../../src/models/enums';
 import { Note } from '../../src/models/note';
-import { Organisation } from '../../src/models/organisation';
+import { Organization } from '../../src/models/organization';
 import { Person } from '../../src/models/person';
 import { APIClient, APIResult } from '../../src/apiclient';
 
@@ -25,24 +25,24 @@ describe("createDeal()", () => {
     } as CreateDealInMessage;
     message.body = data;
 
-    const organisation = {
+    const organization = {
         id: 42,
         name: data.company,
-    } as Organisation;
+    } as Organization;
 
     const person = {
         id: 12,
         name: data.contact_name,
         phone: new Array<string>(data.contact_phone),
         email: new Array<string>(data.contact_email),
-        org_id: organisation.id,
+        org_id: organization.id,
     } as Person;
 
     const deal = {
         id: 99,
         title: 'Website: ' + data.company,
         person_id: person.id,
-        org_id: organisation.id,
+        org_id: organization.id,
         status: Status.Open,
     } as Deal;
 
@@ -62,14 +62,14 @@ describe("createDeal()", () => {
         self.emit = jest.fn();
     });
 
-    it("should create a person, a company, a deal and a notice", async () => {
+    it("should create a person, a organization, a deal and a notice", async () => {
         expect.assertions(4);
 
         // Mock
-        var createOrganisationAPI = nock("https://aperture.pipedrive.com/v1")
-            .post("/organisations")
+        var createOrganizationAPI = nock("https://aperture.pipedrive.com/v1")
+            .post("/organizations")
             .query({ 'api_token': config.token })
-            .reply(200, { success: true, data: organisation } as APIResult);
+            .reply(200, { success: true, data: organization } as APIResult);
         var createContactAPI = nock("https://aperture.pipedrive.com/v1")
             .post("/persons")
             .query({ 'api_token': config.token })
@@ -87,7 +87,7 @@ describe("createDeal()", () => {
         await createDeal.call(this, message, config, {});
 
         // Assert
-        expect(createOrganisationAPI.isDone()).toBeTruthy();
+        expect(createOrganizationAPI.isDone()).toBeTruthy();
         expect(createContactAPI.isDone()).toBeTruthy();
         expect(createDealAPI.isDone()).toBeTruthy();
         expect(createNoteAPI.isDone()).toBeTruthy();
