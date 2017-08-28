@@ -1,7 +1,6 @@
 declare namespace elasticionode {
     interface MessagesModule {
-        // We don't include the emit function, because not even the official
-        // components seem to use then anyhow.
+        // I didn't include the emit function, because not even the other components seem to use them anyhow.
         newEmptyMessage(): Message;
         newMessageWithBody(body: any): Message;
     }

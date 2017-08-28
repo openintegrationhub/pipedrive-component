@@ -14,6 +14,8 @@
     },
     "scripts": {
         "tsc": "tsc",
+        "tslint": "tslint",
+        "pretest": "tslint test/*/*** src/*/***",
         "prepare": "tsc --listEmittedFiles",
         "test": "jest"
     },
