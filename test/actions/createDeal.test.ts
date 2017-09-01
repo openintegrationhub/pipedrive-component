@@ -22,12 +22,14 @@ describe("createDeal()", () => {
         company: 'Black Mesa',
         company_size: '100-500',
         message: 'Can you integrate with the XEN based systems?',
+        owner_id: 332632,
     } as CreateDealInMessage;
     message.body = data;
 
     const organization = {
         id: 42,
         name: data.company,
+        owner_id: 332632,
     } as Organization;
 
     const person = {
@@ -36,6 +38,7 @@ describe("createDeal()", () => {
         phone: new Array<string>(data.contact_phone),
         email: new Array<string>(data.contact_email),
         org_id: organization.id,
+        owner_id: 332632,
     } as Person;
 
     const deal = {

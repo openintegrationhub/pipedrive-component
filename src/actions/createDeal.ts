@@ -16,6 +16,8 @@ export interface CreateDealConfig {
     deal_note: string;
 }
 
+// owner_id is optional, when not specified authenticated user is set as owner
+// from https://developers.pipedrive.com/docs/api/v1
 export interface CreateDealInMessage {
     contact_name: string;
     contact_email: string;
@@ -24,6 +26,7 @@ export interface CreateDealInMessage {
     company: string;
     company_size: string;
     message: string;
+    owner_id: number;
 }
 
 export interface CreateDealOutMessage {
@@ -35,6 +38,7 @@ export interface CreateDealOutMessage {
     company: string;
     company_size: string;
     message: string;
+    owner_id: number;
 }
 
 /**
@@ -44,7 +48,7 @@ export interface CreateDealOutMessage {
  * @param msg incoming messages which is empty for triggers
  * @param cfg object to retrieve triggers configuration values
  * @param snapshot the scratchpad for persitence between execution runs
- * 
+ *
  * @returns promise resolving a message to be emitted to the platform
  */
 export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConfig, snapshot: any): Promise<CreateDealOutMessage> {
@@ -78,23 +82,31 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
     let data = <CreateDealInMessage>msg.body;
 
     // Create Organization
-    console.log("Creating organization: " + data.company);
     let organization = {
         name: data.company,
     } as Organization;
+    // If owner_id is defined add it
+    if (data.owner_id) {
+        organization['owner_id'] = data.owner_id;
+    }
+    console.log("Creating organization: " + JSON.stringify(organization));
     organization = await client.createOrganization(organization);
-    console.log("Created organization: " + organization.name);
+    console.log("Created organization: " + JSON.stringify(organization));
 
     // Create Person
-    console.log("Creating person: " + data.contact_name);
     let person = {
         name: data.contact_name,
         email: new Array<string>(data.contact_email),
         phone: new Array<string>(data.contact_phone),
         org_id: organization.id,
     } as Person;
+    // If owner_id is defined add it
+    if (data.owner_id) {
+        person['owner_id'] = data.owner_id;
+    }
+    console.log("Creating person: " + JSON.stringify(person));
     person = await client.createPerson(person);
-    console.log("Created person: " + person.name);
+    console.log("Created person: " + JSON.stringify(person));
 
     // Create Deal
     console.log("Creating deal: ");
