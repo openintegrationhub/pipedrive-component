@@ -1,10 +1,11 @@
 import { isUndefined } from "lodash";
 
 import { Deal } from "../models/deal";
-import { Status } from "../models/enums";
+import { Status, Done } from "../models/enums";
 import { Note } from "../models/note";
 import { Organization } from "../models/organization";
 import { Person } from "../models/person";
+import { Activity } from "../models/activity";
 
 import { APIClient } from "../apiclient";
 
@@ -128,9 +129,27 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
     note = await client.createNote(note);
     console.log("Created note for deal_id : " + note.deal_id);
 
+    // Create follow-up task activity
+    console.log("Creating activity: ");
+    let activity = {
+        done: Done.NotDone,
+        type: 'task',
+        deal_id: deal.id,
+        person_id: person.id,
+        subject: deal.title,
+        org_id: organization.id,
+        user_id: 0,
+    } as Activity;
+    // TODO: Owner and user may be seperate people.
+    // If owner_id is defined add it
+    if (data.owner_id) {
+        activity.user_id = data.owner_id;
+    }
+    activity = await client.createActivity(activity);
+    console.log("Created activity for deal_id : " + activity.deal_id);
+
     // Return message
     let ret = <CreateDealOutMessage>data;
     ret.deal_id = deal.id;
     return ret;
 }
-

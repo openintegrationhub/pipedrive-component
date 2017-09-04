@@ -6,11 +6,12 @@ import * as nock from "nock";
 
 import { createDeal, CreateDealConfig, CreateDealInMessage } from "../../src/actions/createDeal";
 import { Deal } from '../../src/models/deal';
-import { Status } from '../../src/models/enums';
+import { Status, Done } from '../../src/models/enums';
 import { Note } from '../../src/models/note';
 import { Organization } from '../../src/models/organization';
 import { Person } from '../../src/models/person';
 import { APIClient, APIResult } from '../../src/apiclient';
+import { Activity } from '../../src/models/activity';
 
 describe("createDeal()", () => {
     let message = messages.newEmptyMessage();
@@ -55,6 +56,14 @@ describe("createDeal()", () => {
         content: 'test content',
     } as Note;
 
+    const activity = {
+        subject: deal.title,
+        person_id: person.id,
+        done: Done.NotDone,
+        deal_id: deal.id,
+        type: 'task',
+    } as Activity;
+
     const config = {
         company_domain: "aperture",
         token: "i-am-real-token-yes",
@@ -67,7 +76,7 @@ describe("createDeal()", () => {
     });
 
     it("should create a person, a organization, a deal and a notice", async () => {
-        expect.assertions(4);
+        expect.assertions(5);
 
         // Mock
         var createOrganizationAPI = nock("https://aperture.pipedrive.com/v1")
@@ -86,6 +95,10 @@ describe("createDeal()", () => {
             .post("/notes")
             .query({ 'api_token': config.token })
             .reply(200, { success: true, data: note } as APIResult);
+        var createActivityAPI = nock("https://aperture.pipedrive.com/v1")
+            .post("/activities")
+            .query({ 'api_token': config.token })
+            .reply(200, { success: true, data: activity } as APIResult);
 
         // Act
         await createDeal.call(this, message, config, {});
@@ -95,5 +108,6 @@ describe("createDeal()", () => {
         expect(createContactAPI.isDone()).toBeTruthy();
         expect(createDealAPI.isDone()).toBeTruthy();
         expect(createNoteAPI.isDone()).toBeTruthy();
+        expect(createActivityAPI.isDone()).toBeTruthy();
     });
 });
