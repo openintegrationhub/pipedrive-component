@@ -32,7 +32,7 @@
                     "viewClass": "TextFieldView",
                     "label": "Deal note",
                     "required": true,
-                    "placeholder": "The note which is attached to the deal created."
+                    "placeholder": "A fixed header for the note which is attached to the deal created."
                 }
             }
         }

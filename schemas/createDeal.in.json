@@ -28,7 +28,7 @@
             "type": "string",
             "required": true
         },
-        "owner": {
+        "owner_id": {
             "type": "string"
         }
     }

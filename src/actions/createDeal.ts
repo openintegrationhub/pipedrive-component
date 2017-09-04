@@ -124,7 +124,7 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
     console.log("Creating note: ");
     let note = {
         deal_id: deal.id,
-        content: cfg.deal_note,
+        content: cfg.deal_note + "-" + data.message,
     } as Note;
     note = await client.createNote(note);
     console.log("Created note for deal_id : " + note.deal_id);

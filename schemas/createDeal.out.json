@@ -25,7 +25,7 @@
         "message": {
             "type": "string"
         },
-        "owner": {
+        "owner_id": {
             "type": "string"
         }
     }
