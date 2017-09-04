@@ -24,6 +24,9 @@
         },
         "message": {
             "type": "string"
+        },
+        "owner": {
+            "type": "string"
         }
     }
 }
