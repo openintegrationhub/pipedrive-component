@@ -53,7 +53,7 @@ describe("createDeal()", () => {
     const note = {
         id: 123,
         deal_id: deal.id,
-        content: 'test content',
+        content: 'Just a simple note. : Can you integrate with the XEN based systems?',
     } as Note;
 
     const activity = {

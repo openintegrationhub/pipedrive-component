@@ -1,4 +1,4 @@
-import { isUndefined } from "lodash";
+import { isUndefined, isFinite, toNumber } from "lodash";
 
 import { Deal } from "../models/deal";
 import { Status, Done } from "../models/enums";
@@ -15,6 +15,7 @@ export interface CreateDealConfig {
     token: string;
     company_domain: string;
     deal_note: string;
+    owner_id: string; // Should this be string for any reason?
 }
 
 // owner_id is optional, when not specified authenticated user is set as owner
@@ -28,6 +29,9 @@ export interface CreateDealInMessage {
     company_size: string;
     message: string;
     owner_id: number;
+    org_id: number;
+    person_id: number;
+    user_id: number;
 }
 
 export interface CreateDealOutMessage {
@@ -40,6 +44,9 @@ export interface CreateDealOutMessage {
     company_size: string;
     message: string;
     owner_id: number;
+    org_id: number;
+    person_id: number;
+    user_id: number;
 }
 
 /**
@@ -70,9 +77,6 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
     if (isUndefined(cfg.company_domain)) {
         throw new Error("Company domain is undefined");
     }
-    if (isUndefined(cfg.deal_note)) {
-        throw new Error("Deal note is undefined");
-    }
 
     // Client init
     cfg.token = cfg.token.trim();
@@ -82,71 +86,106 @@ export async function createDeal(msg: elasticionode.Message, cfg: CreateDealConf
     // Get the input data
     let data = <CreateDealInMessage>msg.body;
 
-    // Create Organization
-    let organization = {
-        name: data.company,
-    } as Organization;
-    // If owner_id is defined add it
-    if (data.owner_id) {
-        organization['owner_id'] = data.owner_id;
-    }
-    console.log("Creating organization: " + JSON.stringify(organization));
-    organization = await client.createOrganization(organization);
-    console.log("Created organization: " + JSON.stringify(organization));
+    let ownerId = toNumber(cfg.owner_id);
+    let ownerIdFlag = isFinite(ownerId);
 
-    // Create Person
-    let person = {
-        name: data.contact_name,
-        email: new Array<string>(data.contact_email),
-        phone: new Array<string>(data.contact_phone),
-        org_id: organization.id,
-    } as Person;
-    // If owner_id is defined add it
-    if (data.owner_id) {
-        person['owner_id'] = data.owner_id;
+    // If an org_id is not supplied create an organization
+    if (isUndefined(data.org_id)) {
+        // Create Organization
+        let organization = {
+            name: data.company,
+        } as Organization;
+        // Check availability of possible owner_id definitions
+        if (data.owner_id) {
+            organization.owner_id = data.owner_id;
+        } else if (ownerIdFlag) {
+            organization.owner_id = ownerId;
+        }
+        console.log("Creating organization: " + JSON.stringify(organization));
+        organization = await client.createOrganization(organization);
+        console.log("Created organization: " + JSON.stringify(organization));
+        // assign returned id to org_id
+        data.org_id = organization.id;
     }
-    console.log("Creating person: " + JSON.stringify(person));
-    person = await client.createPerson(person);
-    console.log("Created person: " + JSON.stringify(person));
+
+    // If an person_id is not supplied create a person
+    if (isUndefined(data.person_id)) {
+        // Create Person
+        let person = {
+            name: data.contact_name,
+            email: new Array<string>(data.contact_email),
+            phone: new Array<string>(data.contact_phone),
+            org_id: data.org_id,
+        } as Person;
+        // Check availability of possible owner_id definitions
+        if (data.owner_id) {
+            person.owner_id = data.owner_id;
+        } else if (ownerIdFlag) {
+            person.owner_id = ownerId;
+        }
+        console.log("Creating person: " + JSON.stringify(person));
+        person = await client.createPerson(person);
+        console.log("Created person: " + JSON.stringify(person));
+        // assign returned id to person_id
+        data.person_id = person.id;
+    }
 
     // Create Deal
     console.log("Creating deal: ");
     let deal = {
         title: "Website: " + data.company,
-        person_id: person.id,
-        org_id: organization.id,
+        person_id: data.person_id,
+        org_id: data.org_id,
         status: Status.Open,
     } as Deal;
     deal = await client.createDeal(deal);
     console.log("Created deal: " + deal.title);
 
     // Create Note
-    console.log("Creating note: ");
+    let noteMessage = "";
+    // Check for optional config parameters
+    // if cfg.deal_note is defined and not empty, append
+    if (cfg.deal_note && cfg.deal_note !== "") {
+        noteMessage += cfg.deal_note;
+        // if a special message is available also append " : "
+        if (data.message && data.message !== "") {
+            noteMessage += " : ";
+        }
+    }
+    // if a special message is available also append it
+    if (data.message && data.message !== "") {
+        noteMessage += data.message;
+    }
+    // Form note object to be inserted.
     let note = {
         deal_id: deal.id,
-        content: cfg.deal_note + "-" + data.message,
+        content: noteMessage,
     } as Note;
+    console.log("Creating note: " + JSON.stringify(note));
     note = await client.createNote(note);
-    console.log("Created note for deal_id : " + note.deal_id);
+    console.log("Created note for deal_id : " + JSON.stringify(note));
 
     // Create follow-up task activity
-    console.log("Creating activity: ");
     let activity = {
         done: Done.NotDone,
         type: 'task',
         deal_id: deal.id,
-        person_id: person.id,
+        person_id: data.person_id,
         subject: deal.title,
-        org_id: organization.id,
-        user_id: 0,
+        org_id: data.org_id,
     } as Activity;
-    // TODO: Owner and user may be seperate people.
-    // If owner_id is defined add it
-    if (data.owner_id) {
+    // Sets a user to be the owner of the task. Empty defaults to API key owner.
+    // First checks for user_id, then for input owner_id, then config owner_id
+    if (data.user_id) {
+        activity.user_id = data.user_id;
+    } else if (data.owner_id) {
         activity.user_id = data.owner_id;
+    } else if (ownerIdFlag) {
+        activity.user_id = ownerId;
     }
+    console.log("Creating activity: " + JSON.stringify(activity));
     activity = await client.createActivity(activity);
-    console.log("Created activity for deal_id : " + activity.deal_id);
+    console.log("Created activity for deal_id : " + JSON.stringify(activity));
 
     // Return message
     let ret = <CreateDealOutMessage>data;

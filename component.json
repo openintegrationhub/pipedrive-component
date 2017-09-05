@@ -31,8 +31,12 @@
                 "deal_note": {
                     "viewClass": "TextFieldView",
                     "label": "Deal note",
-                    "required": true,
                     "placeholder": "A fixed header for the note which is attached to the deal created."
+                },
+                "owner_id": {
+                    "viewClass": "TextFieldView",
+                    "label": "Owner id",
+                    "placeholder": "Target pipedrive user id to override the default behaviour."
                 }
             }
         }
