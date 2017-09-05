@@ -1,6 +1,7 @@
 import { Done } from './enums';
 
 export class Activity {
+    id: number;
     subject: string;
     done: Done;
     type: string;

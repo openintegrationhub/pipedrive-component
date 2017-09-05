@@ -1,0 +1,44 @@
+{
+    "type": "object",
+    "properties": {
+        "contact_name": {
+            "type": "string",
+            "required": true
+        },
+        "contact_email": {
+            "type": "string",
+            "required": true
+        },
+        "contact_phone": {
+            "type": "string"
+        },
+        "role": {
+            "type": "string",
+            "required": true
+        },
+        "company": {
+            "type": "string",
+            "required": true
+        },
+        "company_size": {
+            "type": "string",
+            "required": true
+        },
+        "message": {
+            "type": "string",
+            "required": true
+        },
+        "owner_id": {
+            "type": "string"
+        },
+        "org_id": {
+            "type": "string"
+        },
+        "person_id": {
+            "type": "string"
+        },
+        "user_id": {
+            "type": "string"
+        }
+    }
+}

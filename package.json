@@ -33,7 +33,7 @@
             "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
         },
         "testMatch": [
-            "<rootDir>/test/**/*.(ts|tsx|js)"
+            "<rootDir>/test/actions/*.(ts|tsx|js)"
         ]
     },
     "dependencies": {

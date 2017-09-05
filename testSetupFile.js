@@ -1,5 +1,5 @@
 // We don't want to show the console output when testing
-console.log = function () {}
+// console.log = function () {}
 console.info = function () {}
 console.error = function () {}
 console.warn = function () {}

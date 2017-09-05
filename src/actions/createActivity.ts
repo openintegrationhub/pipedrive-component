@@ -1,7 +1,7 @@
 import { isUndefined, isFinite, toNumber } from "lodash";
 
-import { Deal } from "../models/deal";
-import { Status, Done } from "../models/enums";
+
+import { Done } from "../models/enums";
 import { Note } from "../models/note";
 import { Organization } from "../models/organization";
 import { Person } from "../models/person";
@@ -10,13 +10,13 @@ import { ComponentConfig } from "../models/componentConfig";
 
 import { APIClient } from "../apiclient";
 
-exports.process = createDeal;
+exports.process = createActivity;
 
 
 
 // owner_id is optional, when not specified authenticated user is set as owner
 // from https://developers.pipedrive.com/docs/api/v1
-export interface CreateDealInMessage {
+export interface CreateActivityInMessage {
     contact_name: string;
     contact_email: string;
     contact_phone: string;
@@ -30,7 +30,7 @@ export interface CreateDealInMessage {
     user_id: number;
 }
 
-export interface CreateDealOutMessage {
+export interface CreateActivityOutMessage {
     deal_id: number;
     contact_name: string;
     contact_email: string;
@@ -45,8 +45,10 @@ export interface CreateDealOutMessage {
     user_id: number;
 }
 
+// TODO this entire function is code duplication, it can be safely embedded into the createDeal() function.
+
 /**
- * createDeal creates a new deal. It will also create a contact person,
+ * createActivity creates a new activity(task). It will also create a contact person,
  * an organisation and a note.
  *
  * @param msg incoming messages which is empty for triggers
@@ -55,7 +57,7 @@ export interface CreateDealOutMessage {
  *
  * @returns promise resolving a message to be emitted to the platform
  */
-export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<CreateDealOutMessage> {
+export async function createActivity(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<CreateActivityOutMessage> {
     console.log("Msg content:");
     console.log(msg);
     console.log("Cfg content:");
@@ -80,7 +82,7 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
     let client = new APIClient(cfg.company_domain, cfg.token);
 
     // Get the input data
-    let data = <CreateDealInMessage>msg.body;
+    let data = <CreateActivityInMessage>msg.body;
 
     let ownerId = toNumber(cfg.owner_id);
     let ownerIdFlag = isFinite(ownerId);
@@ -130,17 +132,6 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
         console.log("Using person_id: " + data.person_id);
     }
 
-    // Create Deal
-    console.log("Creating deal: ");
-    let deal = {
-        title: "Website: " + data.company,
-        person_id: data.person_id,
-        org_id: data.org_id,
-        status: Status.Open,
-    } as Deal;
-    deal = await client.createDeal(deal);
-    console.log("Created deal: " + deal.title);
-
     // Create Note
     let noteMessage = "";
     // Check for optional config parameters
@@ -158,7 +149,8 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
     }
     // Form note object to be inserted.
     let note = {
-        deal_id: deal.id,
+        person_id: data.person_id,
+        org_id: data.org_id,
         content: noteMessage,
     } as Note;
     console.log("Creating note: " + JSON.stringify(note));
@@ -169,9 +161,8 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
     let activity = {
         done: Done.NotDone,
         type: 'task',
-        deal_id: deal.id,
         person_id: data.person_id,
-        subject: deal.title,
+        subject: "File Download follow-up", // TODO
         org_id: data.org_id,
     } as Activity;
     // Sets a user to be the owner of the task. Empty defaults to API key owner.
@@ -188,7 +179,7 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
     console.log("Created activity for deal_id : " + JSON.stringify(activity));
 
     // Return message
-    let ret = <CreateDealOutMessage>data;
-    ret.deal_id = deal.id;
+    let ret = <CreateActivityOutMessage>data;
+    ret.deal_id = activity.id;
     return ret;
 }
