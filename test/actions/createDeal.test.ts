@@ -4,8 +4,11 @@ import { messages } from "elasticio-node";
 import { readFile } from "fs-extra";
 import * as nock from "nock";
 
-import { createDeal, CreateDealInMessage, } from "../../src/actions/createDeal";
-import { createActivity, CreateActivityInMessage } from "../../src/actions/createActivity";
+import { createDeal } from "../../src/actions/createDeal";
+import { createActivity } from "../../src/actions/createActivity";
+import { createNote } from "../../src/actions/createNote";
+import { createOrganisation } from "../../src/actions/createOrganisation";
+import { createPerson } from "../../src/actions/createPerson";
 import { Deal } from '../../src/models/deal';
 import { Status, Done } from '../../src/models/enums';
 import { Note } from '../../src/models/note';
@@ -14,43 +17,45 @@ import { Person } from '../../src/models/person';
 import { APIClient, APIResult } from '../../src/apiclient';
 import { Activity } from '../../src/models/activity';
 import { ComponentConfig } from '../../src/models/componentConfig';
+import { PipedriveMessage } from '../../src/models/pipedriveMessage';
 
-describe("Call createDeal() and createActivity() in order", () => {
+describe("Create a deal and all subitems", () => {
     let dealMessage = messages.newEmptyMessage();
-    let activityMessage = messages.newEmptyMessage();
 
-    // Careful! this object is common data for two tests beware side effects
+    // Careful! this object is common data for all tests
     const data = {
-        contact_name: 'Gordon Freeman',
-        contact_email: 'gordon.freeman@blackmesa.com',
-        contact_phone: '+01 2516/819813',
-        role: 'Labrat',
-        company: 'Black Mesa',
-        company_size: '100-500',
-        message: 'Can you integrate with the XEN based systems?',
+        activity_subject: "Call Gordon Freeman",
+        activity_note: 'Can you integrate with the XEN based systems?',
         owner_id: 332632,
+        deal_title: "Website: Black Mesa",
+        deal_value: "1.000,00",
+        deal_currency: "Euro",
+        note_content: 'Can you integrate with the XEN based systems?',
+        org_name: 'Black Mesa',
+        person_name: 'Gordon Freeman',
+        person_email: 'gordon.freeman@blackmesa.com',
+        person_phone: '+01 2516/819813',
     };
-    dealMessage.body = data as CreateDealInMessage;
-    activityMessage.body = data as CreateActivityInMessage;
+    dealMessage.body = data as PipedriveMessage;
 
     const organization = {
         id: 42,
-        name: data.company,
-        owner_id: 332632,
+        name: data.org_name,
+        owner_id: data.owner_id,
     } as Organization;
 
     const person = {
         id: 12,
-        name: data.contact_name,
-        phone: new Array<string>(data.contact_phone),
-        email: new Array<string>(data.contact_email),
+        name: data.person_name,
+        phone: new Array<string>(data.person_phone),
+        email: new Array<string>(data.person_email),
         org_id: organization.id,
-        owner_id: 332632,
+        owner_id: data.owner_id,
     } as Person;
 
     const deal = {
         id: 99,
-        title: 'Website: ' + data.company,
+        title: data.deal_title,
         person_id: person.id,
         org_id: organization.id,
         status: Status.Open,
@@ -81,65 +86,83 @@ describe("Call createDeal() and createActivity() in order", () => {
         self.emit = jest.fn();
     });
 
-    // Careful! the deal creation in this test should insert id values into the
-    // message object which should be reused by the following test to test the
-    // id value checks
-    it("should create a person, a organization, a deal then an activity and a notice", async () => {
-        expect.assertions(5);
+    it("should create an organization", async () => {
+        expect.assertions(1);
 
         // Mock
         var createOrganizationAPI = nock("https://aperture.pipedrive.com/v1")
             .post("/organizations")
             .query({ 'api_token': config.token })
             .reply(200, { success: true, data: organization } as APIResult);
+
+        // Act
+        await createOrganisation.call(this, dealMessage, config, {});
+
+        // Assert
+        expect(createOrganizationAPI.isDone()).toBeTruthy();
+    });
+
+    it("should create a person", async () => {
+        expect.assertions(1);
+
+        // Mock
         var createContactAPI = nock("https://aperture.pipedrive.com/v1")
             .post("/persons")
             .query({ 'api_token': config.token })
             .reply(200, { success: true, data: person } as APIResult);
+
+        // Act
+        await createPerson.call(this, dealMessage, config, {});
+
+        // Assert
+        expect(createContactAPI.isDone()).toBeTruthy();
+    });
+
+    it("should create a deal", async () => {
+        expect.assertions(1);
+
+        // Mock
         var createDealAPI = nock("https://aperture.pipedrive.com/v1")
             .post("/deals")
             .query({ 'api_token': config.token })
             .reply(200, { success: true, data: deal } as APIResult);
-        var createNoteAPI = nock("https://aperture.pipedrive.com/v1")
-            .post("/notes")
-            .query({ 'api_token': config.token })
-            .reply(200, { success: true, data: note } as APIResult);
+
+        // Act
+        await createDeal.call(this, dealMessage, config, {});
+
+        // Assert
+        expect(createDealAPI.isDone()).toBeTruthy();
+    });
+
+    it("should create an activity", async () => {
+        expect.assertions(1);
+
+        // Mock
         var createActivityAPI = nock("https://aperture.pipedrive.com/v1")
             .post("/activities")
             .query({ 'api_token': config.token })
             .reply(200, { success: true, data: activity } as APIResult);
 
         // Act
-        await createDeal.call(this, dealMessage, config, {});
+        await createActivity.call(this, dealMessage, config, {});
 
         // Assert
-        expect(createOrganizationAPI.isDone()).toBeTruthy();
-        expect(createContactAPI.isDone()).toBeTruthy();
-        expect(createDealAPI.isDone()).toBeTruthy();
-        expect(createNoteAPI.isDone()).toBeTruthy();
         expect(createActivityAPI.isDone()).toBeTruthy();
     });
 
-    // Careful! This test depends on the test above to create id values in the
-    // shared message object, which are used to test the id checks
-    it("should create a person, a organization, an activity then a notice", async () => {
-        expect.assertions(2);
+    it("should create a notice", async () => {
+        expect.assertions(1);
 
         // Mock
         var createNoteAPI = nock("https://aperture.pipedrive.com/v1")
             .post("/notes")
             .query({ 'api_token': config.token })
             .reply(200, { success: true, data: note } as APIResult);
-        var createActivityAPI = nock("https://aperture.pipedrive.com/v1")
-            .post("/activities")
-            .query({ 'api_token': config.token })
-            .reply(200, { success: true, data: activity } as APIResult);
 
         // Act
-        await createActivity.call(this, activityMessage, config, {});
+        await createNote.call(this, dealMessage, config, {});
 
         // Assert
         expect(createNoteAPI.isDone()).toBeTruthy();
-        expect(createActivityAPI.isDone()).toBeTruthy();
     });
 });

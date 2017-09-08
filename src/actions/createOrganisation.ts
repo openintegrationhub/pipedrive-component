@@ -1,26 +1,22 @@
 import { isUndefined, isFinite, toNumber } from "lodash";
 
-import { Deal } from "../models/deal";
-import { Status } from "../models/enums";
-import { PipedriveMessage } from "../models/pipedriveMessage";
-
+import { Visibility } from "../models/enums";
+import { Organization } from "../models/organization";
 import { ComponentConfig } from "../models/componentConfig";
+import { PipedriveMessage } from "../models/pipedriveMessage";
 
 import { APIClient } from "../apiclient";
 
-exports.process = createDeal;
-
 /**
- * createDeal creates a new deal. It will also create a contact person,
- * an organisation and a note.
+ * createOrganisation creates a new org.
  *
- * @param msg incoming messages which is empty for triggers
+ * @param data incoming messages which is empty for triggers
  * @param cfg object to retrieve triggers configuration values
  * @param snapshot the scratchpad for persitence between execution runs
  *
  * @returns promise resolving a message to be emitted to the platform
  */
-export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<PipedriveMessage> {
+export async function createOrganisation(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<PipedriveMessage> {
     console.log("Msg content:");
     console.log(msg);
     console.log("Cfg content:");
@@ -31,8 +27,8 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
     // Get the input data
     let data = <PipedriveMessage>msg.body;
 
-    if (data.deal_id) {
-        console.log("Deal_id " + data.deal_id + " already exists");
+    if (data.org_id) {
+        console.log("Org_id " + data.org_id + " already exists");
         return data;
     }
 
@@ -52,31 +48,36 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
     cfg.company_domain = cfg.company_domain.trim();
     let client = new APIClient(cfg.company_domain, cfg.token);
 
+
+
     let ownerId = toNumber(cfg.owner_id);
     let ownerIdFlag = isFinite(ownerId);
 
-    // Create Deal
-    console.log("Creating deal: ");
-    let deal = {
-        title: data.deal_title,
-        currency: data.deal_currency,
-        person_id: data.person_id,
-        org_id: data.org_id,
-        status: Status.Open,
-    } as Deal;
-
+    // Create Organization, private by default
+    let organization = {
+        name: data.org_name,
+    } as Organization;
     // Check availability of other owner_id definitions
     if (data.owner_id) {
-        deal.user_id = data.owner_id;
+        organization.owner_id = data.owner_id;
     } else if (ownerIdFlag) {
-        deal.user_id = ownerId;
+        organization.owner_id = ownerId;
     }
-
-    deal = await client.createDeal(deal);
-    console.log("Created deal: " + deal.title);
-
-    // Return message
+    // Set visibility enum, API allows it to be omitted
+    switch (data.visible_to) {
+        case 1:
+            organization.visible_to = Visibility.OwnerAndFollowers;
+            break;
+        case 2:
+            organization.visible_to = Visibility.EntireCompany;
+            break;
+    }
+    console.log("Creating organization: " + JSON.stringify(organization));
+    organization = await client.createOrganization(organization);
+    console.log("Created organization: " + JSON.stringify(organization));
+    // assign returned id to org_id
     let ret = <PipedriveMessage>data;
-    ret.deal_id = deal.id;
+    ret.org_id = organization.id;
+    // Return message
     return ret;
 }
