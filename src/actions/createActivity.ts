@@ -1,4 +1,4 @@
-import { isUndefined, isFinite, toNumber } from "lodash";
+import { isUndefined } from "lodash";
 
 import { Done } from "../models/enums";
 import { Activity } from "../models/activity";
@@ -45,9 +45,6 @@ export async function createActivity(msg: elasticionode.Message, cfg: ComponentC
     cfg.company_domain = cfg.company_domain.trim();
     let client = new APIClient(cfg.company_domain, cfg.token);
 
-    let ownerId = toNumber(cfg.owner_id);
-    let ownerIdFlag = isFinite(ownerId);
-
     // Create activity TODO REMOVE hardcoded
     let activity = {
         done: Done.NotDone,
@@ -55,14 +52,10 @@ export async function createActivity(msg: elasticionode.Message, cfg: ComponentC
         person_id: data.person_id,
         subject: data.activity_subject,
         org_id: data.org_id,
+        user_id: data.owner_id,
+        deal_id: data.deal_id,
     } as Activity;
-    // Sets a user to be the owner of the task. Empty defaults to API key owner.
-    // First checks for input id, then config owner_id
-    if (data.user_id) {
-        activity.user_id = data.user_id;
-    } else if (ownerIdFlag) {
-        activity.user_id = ownerId;
-    }
+
     console.log("Creating activity: " + JSON.stringify(activity));
     activity = await client.createActivity(activity);
     console.log("Created activity for deal_id : " + JSON.stringify(activity));

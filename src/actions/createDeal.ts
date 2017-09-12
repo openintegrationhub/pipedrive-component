@@ -1,7 +1,7 @@
-import { isUndefined, isFinite, toNumber } from "lodash";
+import { isUndefined } from "lodash";
 
 import { Deal } from "../models/deal";
-import { Status } from "../models/enums";
+import { Status, Visibility } from "../models/enums";
 import { PipedriveMessage } from '../models/pipedriveMessage';
 import { ComponentConfig } from "../models/componentConfig";
 
@@ -44,9 +44,6 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
     cfg.company_domain = cfg.company_domain.trim();
     let client = new APIClient(cfg.company_domain, cfg.token);
 
-    let ownerId = toNumber(cfg.owner_id);
-    let ownerIdFlag = isFinite(ownerId);
-
     // Create Deal
     console.log("Creating deal: ");
     let deal = {
@@ -54,14 +51,35 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
         currency: data.deal_currency,
         person_id: data.person_id,
         org_id: data.org_id,
-        status: Status.Open,
+        user_id: data.owner_id,
+        add_time: data.deal_add_time,
+        lost_reason: data.deal_lost_reason,
+        stage_id: data.deal_stage_id,
+        value: data.deal_value,
+
     } as Deal;
 
-    // Check availability of other owner_id definitions
-    if (data.user_id) {
-        deal.user_id = data.user_id;
-    } else if (ownerIdFlag) {
-        deal.user_id = ownerId;
+    // Set visibility enum, API allows it to be omitted
+    switch (data.deal_visible_to) {
+        case 1:
+            deal.visible_to = Visibility.OwnerAndFollowers;
+            break;
+        case 2:
+            deal.visible_to = Visibility.EntireCompany;
+            break;
+    }
+
+    // Set status enum, API allows it to be omitted
+    switch (data.deal_status) {
+        case "Open":
+            deal.status = Status.Open;
+            break;
+        case "Won":
+            deal.status = Status.Won;
+            break;
+        case "Lost":
+            deal.status = Status.Lost;
+            break;
     }
 
     deal = await client.createDeal(deal);

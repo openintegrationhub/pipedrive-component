@@ -42,19 +42,13 @@ export async function createOrganisation(msg: elasticionode.Message, cfg: Compon
     cfg.company_domain = cfg.company_domain.trim();
     let client = new APIClient(cfg.company_domain, cfg.token);
 
-    let ownerId = toNumber(cfg.owner_id);
-    let ownerIdFlag = isFinite(ownerId);
-
     // Create Organization, private by default
     let organization = {
         name: data.org_name,
+        add_time: data.org_add_time,
+        owner_id: data.owner_id,
     } as Organization;
-    // Check availability of other owner_id definitions
-    if (data.owner_id) {
-        organization.owner_id = data.owner_id;
-    } else if (ownerIdFlag) {
-        organization.owner_id = ownerId;
-    }
+
     // Set visibility enum, API allows it to be omitted
     switch (data.org_visible_to) {
         case 1:

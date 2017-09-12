@@ -46,9 +46,6 @@ export async function createPerson(msg: elasticionode.Message, cfg: ComponentCon
     cfg.company_domain = cfg.company_domain.trim();
     let client = new APIClient(cfg.company_domain, cfg.token);
 
-    let ownerId = toNumber(cfg.owner_id);
-    let ownerIdFlag = isFinite(ownerId);
-
     // Create Organization, private by default
     let person = {
         name: data.person_name,
@@ -56,13 +53,9 @@ export async function createPerson(msg: elasticionode.Message, cfg: ComponentCon
         phone: data.person_phone,
         org_id: data.org_id,
         add_time: data.person_add_time,
+        owner_id: data.owner_id,
     } as Person;
-    // Check availability of other owner_id definitions
-    if (data.owner_id) {
-        person.owner_id = data.owner_id;
-    } else if (ownerIdFlag) {
-        person.owner_id = ownerId;
-    }
+
     // Set visibility enum, API allows it to be omitted
     switch (data.person_visible_to) {
         case 1:
