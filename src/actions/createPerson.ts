@@ -56,7 +56,7 @@ export async function createPerson(msg: elasticionode.Message, cfg: ComponentCon
         person_email: data.person_email,
         person_phone: data.person_phone,
         org_id: data.org_id,
-        add_time: data.add_time,
+        person_add_time: data.person_add_time,
     } as Person;
     // Check availability of other owner_id definitions
     if (data.owner_id) {
@@ -65,12 +65,12 @@ export async function createPerson(msg: elasticionode.Message, cfg: ComponentCon
         person.owner_id = ownerId;
     }
     // Set visibility enum, API allows it to be omitted
-    switch (data.visible_to) {
+    switch (data.person_visible_to) {
         case 1:
-            person.visible_to = Visibility.OwnerAndFollowers;
+            person.person_visible_to = Visibility.OwnerAndFollowers;
             break;
         case 2:
-            person.visible_to = Visibility.EntireCompany;
+            person.person_visible_to = Visibility.EntireCompany;
             break;
     }
     console.log("Creating person: " + JSON.stringify(person));
