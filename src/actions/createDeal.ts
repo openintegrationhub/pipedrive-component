@@ -45,7 +45,6 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
     let client = new APIClient(cfg.company_domain, cfg.token);
 
     // Create Deal
-    console.log("Creating deal: ");
     let deal = {
         title: data.deal_title,
         currency: data.deal_currency,
@@ -81,9 +80,9 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
             deal.status = Status.Lost;
             break;
     }
-
+    console.log("Creating deal: " + JSON.stringify(deal));
     deal = await client.createDeal(deal);
-    console.log("Created deal: " + deal.title);
+    console.log("Created deal: " + JSON.stringify(deal));
 
     // Return message
     let ret = <PipedriveMessage>data;
