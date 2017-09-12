@@ -1,5 +1,4 @@
-export interface Note {
-    note_id: number;
+export interface NoteIn {
     note_content: string;
     deal_id: number;
     person_id: number;

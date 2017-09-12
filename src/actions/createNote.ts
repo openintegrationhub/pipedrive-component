@@ -2,7 +2,7 @@ import { isUndefined } from "lodash";
 
 import { Note } from "../models/note";
 import { ComponentConfig } from "../models/componentConfig";
-import { PipedriveMessage } from "../models/pipedriveMessage";
+import { NoteIn } from "../models/noteIn";
 
 import { APIClient } from "../apiclient";
 
@@ -18,7 +18,7 @@ exports.process = createNote;
  *
  * @returns promise resolving a message to be emitted to the platform
  */
-export async function createNote(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<PipedriveMessage> {
+export async function createNote(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<Note> {
 
     console.log("Msg content:");
     console.log(msg);
@@ -28,12 +28,8 @@ export async function createNote(msg: elasticionode.Message, cfg: ComponentConfi
     console.log(snapshot);
 
     // Get the input data
-    let data = <PipedriveMessage>msg.body;
+    let data = <NoteIn>msg.body;
 
-    if (data.note_id) {
-        console.log("Note_id " + data.note_id + " already exists");
-        return data;
-    }
     // Generate the config for https request
     if (isUndefined(cfg)) {
         throw new Error("cfg is undefined");
@@ -70,14 +66,14 @@ export async function createNote(msg: elasticionode.Message, cfg: ComponentConfi
         org_id: data.org_id,
         person_id: data.person_id,
         deal_id: data.deal_id,
-        content: noteMessage,
+        note_content: noteMessage,
     } as Note;
     console.log("Creating note: " + JSON.stringify(note));
     note = await client.createNote(note);
     console.log("Created note for deal_id : " + JSON.stringify(note));
     // assign returned id to org_id
-    let ret = <PipedriveMessage>data;
-    ret.note_id = note.id;
+    let ret = <Note>data;
+    ret.note_id = note.note_id;
     // Return message
     return ret;
 }

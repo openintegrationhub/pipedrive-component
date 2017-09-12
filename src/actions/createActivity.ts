@@ -3,7 +3,7 @@ import { isUndefined, isFinite, toNumber } from "lodash";
 import { Done } from "../models/enums";
 import { Activity } from "../models/activity";
 import { ComponentConfig } from "../models/componentConfig";
-import { PipedriveMessage } from "../models/pipedriveMessage";
+import { ActivityIn } from "../models/activityIn";
 
 import { APIClient } from "../apiclient";
 
@@ -21,7 +21,7 @@ exports.process = createActivity;
  *
  * @returns promise resolving a message to be emitted to the platform
  */
-export async function createActivity(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<PipedriveMessage> {
+export async function createActivity(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<Activity> {
     console.log("Msg content:");
     console.log(msg);
     console.log("Cfg content:");
@@ -30,12 +30,7 @@ export async function createActivity(msg: elasticionode.Message, cfg: ComponentC
     console.log(snapshot);
 
     // Get the input data
-    let data = <PipedriveMessage>msg.body;
-
-    if (data.activity_id) {
-        console.log("Activity_id " + data.activity_id + " already exists");
-        return data;
-    }
+    let data = <ActivityIn>msg.body;
 
     // Generate the config for https request
     if (isUndefined(cfg)) {
@@ -56,20 +51,18 @@ export async function createActivity(msg: elasticionode.Message, cfg: ComponentC
     let ownerId = toNumber(cfg.owner_id);
     let ownerIdFlag = isFinite(ownerId);
 
-    // Create activity
+    // Create activity TODO REMOVE hardcoded
     let activity = {
-        done: Done.NotDone,
-        type: 'task',
+        activity_done: Done.NotDone,
+        activity_type: data.activity_type,
         person_id: data.person_id,
-        subject: "File Download follow-up", // TODO
+        activity_subject: data.activity_subject,
         org_id: data.org_id,
     } as Activity;
     // Sets a user to be the owner of the task. Empty defaults to API key owner.
-    // First checks for user_id, then for input owner_id, then config owner_id
+    // First checks for input id, then config owner_id
     if (data.user_id) {
         activity.user_id = data.user_id;
-    } else if (data.owner_id) {
-        activity.user_id = data.owner_id;
     } else if (ownerIdFlag) {
         activity.user_id = ownerId;
     }
@@ -78,7 +71,7 @@ export async function createActivity(msg: elasticionode.Message, cfg: ComponentC
     console.log("Created activity for deal_id : " + JSON.stringify(activity));
 
     // Return message
-    let ret = <PipedriveMessage>data;
-    ret.deal_id = activity.id;
+    let ret = <Activity>data;
+    ret.activity_id = activity.activity_id;
     return ret;
 }

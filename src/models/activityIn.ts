@@ -1,7 +1,6 @@
 import { Done } from './enums';
 
-export class Activity {
-    activity_id: number;
+export class ActivityIn {
     activity_subject: string;
     activity_done: Done;
     activity_type: string;

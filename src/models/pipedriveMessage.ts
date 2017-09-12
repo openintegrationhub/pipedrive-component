@@ -1,4 +1,4 @@
-import { Visibility } from "../models/enums";
+import { Visibility, Done, Status } from "../models/enums";
 
 // owner_id and user_id are fully optional
 //  when owner_id not specified authenticated user is set as owner
@@ -7,21 +7,29 @@ import { Visibility } from "../models/enums";
 export interface PipedriveMessage {
     activity_id: number;
     activity_subject: string;
-    user_id: number;
+    activity_done: Done;
+    activity_type: string;
     deal_id: number;
-    person_id: number;
-    org_id: number;
-    activity_note: string;
-    owner_id: number;
     deal_title: string;
-    deal_value: string;
+    deal_value: number;
     deal_currency: string;
-    add_time: string;
-    visible_to: Visibility;
+    user_id: number;
+    deal_stage_id: number;
+    deal_status: Status;
+    deal_lost_reason: string;
+    deal_visible_to: Visibility;
+    deal_add_time: string;
     note_id: number;
     note_content: string;
+    org_id: number;
     org_name: string;
+    org_visible_to: Visibility;
+    org_add_time: string;
+    person_id: number;
     person_name: string;
-    person_email: string;
-    person_phone: string;
+    person_email: Array<string>;
+    person_phone: Array<string>;
+    person_visible_to: Visibility;
+    person_add_time: string;
+    owner_id: number;
 }

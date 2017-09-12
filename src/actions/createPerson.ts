@@ -3,7 +3,7 @@ import { isUndefined, isFinite, toNumber } from "lodash";
 import { Visibility } from "../models/enums";
 import { Person } from "../models/person";
 import { ComponentConfig } from "../models/componentConfig";
-import { PipedriveMessage } from "../models/pipedriveMessage";
+import { PersonIn } from "../models/personIn";
 
 import { APIClient } from "../apiclient";
 
@@ -19,7 +19,7 @@ exports.process = createPerson;
  *
  * @returns promise resolving a message to be emitted to the platform
  */
-export async function createPerson(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<PipedriveMessage> {
+export async function createPerson(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<Person> {
 
     console.log("Msg content:");
     console.log(msg);
@@ -29,12 +29,7 @@ export async function createPerson(msg: elasticionode.Message, cfg: ComponentCon
     console.log(snapshot);
 
     // Get the input data
-    let data = <PipedriveMessage>msg.body;
-
-    if (data.person_id) {
-        console.log("Person_id " + data.person_id + " already exists");
-        return data;
-    }
+    let data = <PersonIn>msg.body;
 
     // Generate the config for https request
     if (isUndefined(cfg)) {
@@ -57,9 +52,9 @@ export async function createPerson(msg: elasticionode.Message, cfg: ComponentCon
 
     // Create Organization, private by default
     let person = {
-        name: data.person_name,
-        email: new Array<string>(data.person_email),
-        phone: new Array<string>(data.person_phone),
+        person_name: data.person_name,
+        person_email: data.person_email,
+        person_phone: data.person_phone,
         org_id: data.org_id,
         add_time: data.add_time,
     } as Person;
@@ -82,8 +77,8 @@ export async function createPerson(msg: elasticionode.Message, cfg: ComponentCon
     person = await client.createPerson(person);
     console.log("Created person: " + JSON.stringify(person));
     // assign returned id to org_id
-    let ret = <PipedriveMessage>data;
-    ret.person_id = person.id;
+    let ret = <Person>data;
+    ret.person_id = person.person_id;
     // Return message
     return ret;
 }
