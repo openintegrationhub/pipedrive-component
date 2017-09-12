@@ -47,26 +47,12 @@ export async function createNote(msg: elasticionode.Message, cfg: ComponentConfi
     let client = new APIClient(cfg.company_domain, cfg.token);
 
     // Create Note
-    let noteMessage = "";
-    // Check for optional config parameters
-    // if cfg.deal_note is defined and not empty, append
-    if (cfg.deal_note && cfg.deal_note !== "") {
-        noteMessage += cfg.deal_note;
-        // if a special message is available also append " : "
-        if (data.note_content && data.note_content !== "") {
-            noteMessage += " : ";
-        }
-    }
-    // if a special message is available also append it
-    if (data.note_content && data.note_content !== "") {
-        noteMessage += data.note_content;
-    }
     // Form note object to be inserted.
     let note = {
         org_id: data.org_id,
         person_id: data.person_id,
         deal_id: data.deal_id,
-        content: noteMessage,
+        content: data.note_content,
     } as Note;
     console.log("Creating note: " + JSON.stringify(note));
     note = await client.createNote(note);
