@@ -10,8 +10,7 @@ import { APIClient } from "../apiclient";
 exports.process = createPerson;
 
 /**
- * createPerson creates a new person. It will also create a contact person,
- * an organisation and a note.
+ * createPerson creates a new person.
  *
  * @param msg incoming messages which is empty for triggers
  * @param cfg object to retrieve triggers configuration values

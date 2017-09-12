@@ -9,11 +9,8 @@ import { APIClient } from "../apiclient";
 
 exports.process = createActivity;
 
-// TODO this entire function is code duplication, it can be safely embedded into the createDeal() function.
-
 /**
- * createActivity creates a new activity(task). It will also create a contact person,
- * an organisation and a note.
+ * createActivity creates a new activity(task).
  *
  * @param msg incoming messages which is empty for triggers
  * @param cfg object to retrieve triggers configuration values

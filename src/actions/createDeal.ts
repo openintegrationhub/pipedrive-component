@@ -10,8 +10,7 @@ import { APIClient } from "../apiclient";
 exports.process = createDeal;
 
 /**
- * createDeal creates a new deal. It will also create a contact person,
- * an organisation and a note.
+ * createDeal creates a new deal.
  *
  * @param msg incoming messages which is empty for triggers
  * @param cfg object to retrieve triggers configuration values

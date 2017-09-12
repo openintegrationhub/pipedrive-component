@@ -36,7 +36,7 @@
             }
         },
         "createActivity": {
-            "title": "Create a new activiyt in pipedrive",
+            "title": "Create a new activity in pipedrive",
             "main": "./lib/actions/createDeal.js",
             "metadata": {
                 "in": "./schemas/createDeal.in.json",

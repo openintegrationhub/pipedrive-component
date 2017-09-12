@@ -37,43 +37,6 @@ describe("Create a deal and all subitems", () => {
     };
     message.body = data as PipedriveMessage;
 
-    const organization = {
-        id: 42,
-        name: data.org_name,
-        owner_id: data.owner_id,
-    } as Organization;
-
-    const person = {
-        id: 12,
-        name: data.person_name,
-        phone: data.person_phone,
-        email: data.person_email,
-        org_id: organization.id,
-        owner_id: data.owner_id,
-    } as Person;
-
-    const deal = {
-        id: 99,
-        title: data.deal_title,
-        person_id: person.id,
-        org_id: organization.id,
-        status: Status.Open,
-    } as Deal;
-
-    const note = {
-        id: 123,
-        deal_id: deal.id,
-        content: 'Just a simple note. : Can you integrate with the XEN based systems?',
-    } as Note;
-
-    const activity = {
-        subject: data.activity_subject,
-        person_id: person.id,
-        done: Done.NotDone,
-        deal_id: deal.id,
-        type: 'task',
-    } as Activity;
-
     const config = {
         company_domain: "aperture",
         token: "i-am-real-token-yes",
@@ -152,6 +115,44 @@ describe("Create a deal and all subitems", () => {
             expect(res).toBeDefined();
         });
     } else {
+
+        const organization = {
+            id: 42,
+            name: data.org_name,
+            owner_id: data.owner_id,
+        } as Organization;
+
+        const person = {
+            id: 12,
+            name: data.person_name,
+            phone: data.person_phone,
+            email: data.person_email,
+            org_id: organization.id,
+            owner_id: data.owner_id,
+        } as Person;
+
+        const deal = {
+            id: 99,
+            title: data.deal_title,
+            person_id: person.id,
+            org_id: organization.id,
+            status: Status.Open,
+        } as Deal;
+
+        const note = {
+            id: 123,
+            deal_id: deal.id,
+            content: 'Just a simple note. : Can you integrate with the XEN based systems?',
+        } as Note;
+
+        const activity = {
+            subject: data.activity_subject,
+            person_id: person.id,
+            done: Done.NotDone,
+            deal_id: deal.id,
+            type: 'task',
+        } as Activity;
+
         it("should mock creating an organization", async () => {
             expect.assertions(1);
 
