@@ -7,6 +7,8 @@ import { PipedriveMessage } from '../models/pipedriveMessage';
 
 import { APIClient } from "../apiclient";
 
+exports.process = createOrganisation;
+
 /**
  * createOrganisation creates a new org.
  *
