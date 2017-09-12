@@ -38,40 +38,40 @@ describe("Create a deal and all subitems", () => {
     message.body = data as PipedriveMessage;
 
     const organization = {
-        org_id: 42,
-        org_name: data.org_name,
+        id: 42,
+        name: data.org_name,
         owner_id: data.owner_id,
     } as Organization;
 
     const person = {
-        person_id: 12,
-        person_name: data.person_name,
-        person_phone: data.person_phone,
-        person_email: data.person_email,
-        org_id: organization.org_id,
+        id: 12,
+        name: data.person_name,
+        phone: data.person_phone,
+        email: data.person_email,
+        org_id: organization.id,
         owner_id: data.owner_id,
     } as Person;
 
     const deal = {
-        deal_id: 99,
-        deal_title: data.deal_title,
-        person_id: person.person_id,
-        org_id: organization.org_id,
-        deal_status: Status.Open,
+        id: 99,
+        title: data.deal_title,
+        person_id: person.id,
+        org_id: organization.id,
+        status: Status.Open,
     } as Deal;
 
     const note = {
-        note_id: 123,
-        deal_id: deal.deal_id,
-        note_content: 'Just a simple note. : Can you integrate with the XEN based systems?',
+        id: 123,
+        deal_id: deal.id,
+        content: 'Just a simple note. : Can you integrate with the XEN based systems?',
     } as Note;
 
     const activity = {
-        activity_subject: data.activity_subject,
-        person_id: person.person_id,
-        activity_done: Done.NotDone,
-        deal_id: deal.deal_id,
-        activity_type: 'task',
+        subject: data.activity_subject,
+        person_id: person.id,
+        done: Done.NotDone,
+        deal_id: deal.id,
+        type: 'task',
     } as Activity;
 
     const config = {

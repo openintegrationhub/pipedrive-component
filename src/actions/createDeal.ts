@@ -2,8 +2,7 @@ import { isUndefined, isFinite, toNumber } from "lodash";
 
 import { Deal } from "../models/deal";
 import { Status } from "../models/enums";
-import { DealIn } from "../models/dealIn";
-
+import { PipedriveMessage } from '../models/pipedriveMessage';
 import { ComponentConfig } from "../models/componentConfig";
 
 import { APIClient } from "../apiclient";
@@ -20,7 +19,7 @@ exports.process = createDeal;
  *
  * @returns promise resolving a message to be emitted to the platform
  */
-export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<Deal> {
+export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<PipedriveMessage> {
     console.log("Msg content:");
     console.log(msg);
     console.log("Cfg content:");
@@ -29,7 +28,7 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
     console.log(snapshot);
 
     // Get the input data
-    let data = <DealIn>msg.body;
+    let data = <PipedriveMessage>msg.body;
     // Generate the config for https request
     if (isUndefined(cfg)) {
         throw new Error("cfg is undefined");
@@ -52,11 +51,11 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
     // Create Deal
     console.log("Creating deal: ");
     let deal = {
-        deal_title: data.deal_title,
-        deal_currency: data.deal_currency,
+        title: data.deal_title,
+        currency: data.deal_currency,
         person_id: data.person_id,
         org_id: data.org_id,
-        deal_status: Status.Open,
+        status: Status.Open,
     } as Deal;
 
     // Check availability of other owner_id definitions
@@ -67,10 +66,10 @@ export async function createDeal(msg: elasticionode.Message, cfg: ComponentConfi
     }
 
     deal = await client.createDeal(deal);
-    console.log("Created deal: " + deal.deal_title);
+    console.log("Created deal: " + deal.title);
 
     // Return message
-    let ret = <Deal>data;
-    ret.deal_id = deal.deal_id;
+    let ret = <PipedriveMessage>data;
+    ret.deal_id = deal.id;
     return ret;
 }

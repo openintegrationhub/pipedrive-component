@@ -3,7 +3,7 @@ import { isUndefined, isFinite, toNumber } from "lodash";
 import { Done } from "../models/enums";
 import { Activity } from "../models/activity";
 import { ComponentConfig } from "../models/componentConfig";
-import { ActivityIn } from "../models/activityIn";
+import { PipedriveMessage } from '../models/pipedriveMessage';
 
 import { APIClient } from "../apiclient";
 
@@ -21,7 +21,7 @@ exports.process = createActivity;
  *
  * @returns promise resolving a message to be emitted to the platform
  */
-export async function createActivity(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<Activity> {
+export async function createActivity(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<PipedriveMessage> {
     console.log("Msg content:");
     console.log(msg);
     console.log("Cfg content:");
@@ -30,7 +30,7 @@ export async function createActivity(msg: elasticionode.Message, cfg: ComponentC
     console.log(snapshot);
 
     // Get the input data
-    let data = <ActivityIn>msg.body;
+    let data = <PipedriveMessage>msg.body;
 
     // Generate the config for https request
     if (isUndefined(cfg)) {
@@ -53,10 +53,10 @@ export async function createActivity(msg: elasticionode.Message, cfg: ComponentC
 
     // Create activity TODO REMOVE hardcoded
     let activity = {
-        activity_done: Done.NotDone,
-        activity_type: data.activity_type,
+        done: Done.NotDone,
+        type: data.activity_type,
         person_id: data.person_id,
-        activity_subject: data.activity_subject,
+        subject: data.activity_subject,
         org_id: data.org_id,
     } as Activity;
     // Sets a user to be the owner of the task. Empty defaults to API key owner.
@@ -71,7 +71,7 @@ export async function createActivity(msg: elasticionode.Message, cfg: ComponentC
     console.log("Created activity for deal_id : " + JSON.stringify(activity));
 
     // Return message
-    let ret = <Activity>data;
-    ret.activity_id = activity.activity_id;
+    let ret = <PipedriveMessage>data;
+    ret.activity_id = activity.id;
     return ret;
 }

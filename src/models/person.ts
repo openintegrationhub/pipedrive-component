@@ -1,12 +1,12 @@
 import { Visibility } from './enums';
 
 export interface Person {
-    person_id: number;
-    person_name: string;
+    id: number;
+    name: string;
     owner_id: number;
     org_id: number;
-    person_email: Array<string>;
-    person_phone: Array<string>;
-    person_visible_to: Visibility;
-    person_add_time: string;
+    email: Array<string>;
+    phone: Array<string>;
+    visible_to: Visibility;
+    add_time: string;
 }

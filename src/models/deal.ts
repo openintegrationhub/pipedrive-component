@@ -1,16 +1,16 @@
 import { Status, Visibility } from './enums';
 
 export interface Deal {
-    deal_id: number;
-    deal_title: string;
-    deal_value: number;
-    deal_currency: string;
+    id: number;
+    title: string;
+    value: number;
+    currency: string;
     user_id: number;
     person_id: number;
     org_id: number;
-    deal_stage_id: number;
-    deal_status: Status;
-    deal_lost_reason: string;
-    deal_visible_to: Visibility;
-    deal_add_time: string;
+    stage_id: number;
+    status: Status;
+    lost_reason: string;
+    visible_to: Visibility;
+    add_time: string;
 }

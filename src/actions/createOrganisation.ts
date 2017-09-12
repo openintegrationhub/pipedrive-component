@@ -3,7 +3,7 @@ import { isUndefined, isFinite, toNumber } from "lodash";
 import { Visibility } from "../models/enums";
 import { Organization } from "../models/organization";
 import { ComponentConfig } from "../models/componentConfig";
-import { OrganizationIn } from "../models/organizationIn";
+import { PipedriveMessage } from '../models/pipedriveMessage';
 
 import { APIClient } from "../apiclient";
 
@@ -16,7 +16,7 @@ import { APIClient } from "../apiclient";
  *
  * @returns promise resolving a message to be emitted to the platform
  */
-export async function createOrganisation(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<Organization> {
+export async function createOrganisation(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<PipedriveMessage> {
     console.log("Msg content:");
     console.log(msg);
     console.log("Cfg content:");
@@ -24,8 +24,7 @@ export async function createOrganisation(msg: elasticionode.Message, cfg: Compon
     console.log("snapshot content:");
     console.log(snapshot);
 
-    // Get the input data
-    let data = <OrganizationIn>msg.body;
+    let data = <PipedriveMessage>msg.body;
 
     // Generate the config for https request
     if (isUndefined(cfg)) {
@@ -43,14 +42,12 @@ export async function createOrganisation(msg: elasticionode.Message, cfg: Compon
     cfg.company_domain = cfg.company_domain.trim();
     let client = new APIClient(cfg.company_domain, cfg.token);
 
-
-
     let ownerId = toNumber(cfg.owner_id);
     let ownerIdFlag = isFinite(ownerId);
 
     // Create Organization, private by default
     let organization = {
-        org_name: data.org_name,
+        name: data.org_name,
     } as Organization;
     // Check availability of other owner_id definitions
     if (data.owner_id) {
@@ -61,18 +58,18 @@ export async function createOrganisation(msg: elasticionode.Message, cfg: Compon
     // Set visibility enum, API allows it to be omitted
     switch (data.org_visible_to) {
         case 1:
-            organization.org_visible_to = Visibility.OwnerAndFollowers;
+            organization.visible_to = Visibility.OwnerAndFollowers;
             break;
         case 2:
-            organization.org_visible_to = Visibility.EntireCompany;
+            organization.visible_to = Visibility.EntireCompany;
             break;
     }
     console.log("Creating organization: " + JSON.stringify(organization));
     organization = await client.createOrganization(organization);
     console.log("Created organization: " + JSON.stringify(organization));
     // assign returned id to org_id
-    let ret = <Organization>data;
-    ret.org_id = organization.org_id;
+    let ret = <PipedriveMessage>data;
+    ret.org_id = organization.id;
     // Return message
     return ret;
 }

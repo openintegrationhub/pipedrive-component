@@ -3,7 +3,7 @@ import { isUndefined, isFinite, toNumber } from "lodash";
 import { Visibility } from "../models/enums";
 import { Person } from "../models/person";
 import { ComponentConfig } from "../models/componentConfig";
-import { PersonIn } from "../models/personIn";
+import { PipedriveMessage } from '../models/pipedriveMessage';
 
 import { APIClient } from "../apiclient";
 
@@ -19,7 +19,7 @@ exports.process = createPerson;
  *
  * @returns promise resolving a message to be emitted to the platform
  */
-export async function createPerson(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<Person> {
+export async function createPerson(msg: elasticionode.Message, cfg: ComponentConfig, snapshot: any): Promise<PipedriveMessage> {
 
     console.log("Msg content:");
     console.log(msg);
@@ -29,7 +29,7 @@ export async function createPerson(msg: elasticionode.Message, cfg: ComponentCon
     console.log(snapshot);
 
     // Get the input data
-    let data = <PersonIn>msg.body;
+    let data = <PipedriveMessage>msg.body;
 
     // Generate the config for https request
     if (isUndefined(cfg)) {
@@ -52,11 +52,11 @@ export async function createPerson(msg: elasticionode.Message, cfg: ComponentCon
 
     // Create Organization, private by default
     let person = {
-        person_name: data.person_name,
-        person_email: data.person_email,
-        person_phone: data.person_phone,
+        name: data.person_name,
+        email: data.person_email,
+        phone: data.person_phone,
         org_id: data.org_id,
-        person_add_time: data.person_add_time,
+        add_time: data.person_add_time,
     } as Person;
     // Check availability of other owner_id definitions
     if (data.owner_id) {
@@ -67,18 +67,18 @@ export async function createPerson(msg: elasticionode.Message, cfg: ComponentCon
     // Set visibility enum, API allows it to be omitted
     switch (data.person_visible_to) {
         case 1:
-            person.person_visible_to = Visibility.OwnerAndFollowers;
+            person.visible_to = Visibility.OwnerAndFollowers;
             break;
         case 2:
-            person.person_visible_to = Visibility.EntireCompany;
+            person.visible_to = Visibility.EntireCompany;
             break;
     }
     console.log("Creating person: " + JSON.stringify(person));
     person = await client.createPerson(person);
     console.log("Created person: " + JSON.stringify(person));
     // assign returned id to org_id
-    let ret = <Person>data;
-    ret.person_id = person.person_id;
+    let ret = <PipedriveMessage>data;
+    ret.person_id = person.id;
     // Return message
     return ret;
 }
