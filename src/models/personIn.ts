@@ -6,6 +6,6 @@ export interface PersonIn {
     org_id: number;
     person_email: Array<string>;
     person_phone: Array<string>;
-    visible_to: Visibility;
-    add_time: string;
+    person_visible_to: Visibility;
+    person_add_time: string;
 }
