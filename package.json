@@ -1,58 +1,60 @@
 {
-    "name": "pipedrive-component",
-    "version": "0.0.1",
-    "description": "pipedrive component",
-    "homepage": "https://www.pipedrive.org/",
-    "author": {
-        "name": "mVISE AG",
-        "email": "info@mvise.de",
-        "url": "https://www.mvise.de"
+  "name": "pipedrive-component",
+  "version": "0.0.1",
+  "description": "pipedrive component",
+  "homepage": "https://www.pipedrive.org/",
+  "author": {
+    "name": "mVISE AG",
+    "email": "info@mvise.de",
+    "url": "https://www.mvise.de"
+  },
+  "engines": {
+    "node": "^8.3.0",
+    "npm": ">=5.4"
+  },
+  "scripts": {
+    "start": "node ./node_modules/@openintegrationhub/ferryman/runGlobal.js",
+    "tsc": "tsc",
+    "tslint": "tslint",
+    "pretest": "tslint test/*/*** src/*/***",
+    "prepare": "tsc --listEmittedFiles",
+    "test": "jest"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/testSetupFile.js"
+    ],
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
     },
-    "engines": {
-        "node": "^8.3.0",
-        "npm": ">=5.4"
-    },
-    "scripts": {
-        "tsc": "tsc",
-        "tslint": "tslint",
-        "pretest": "tslint test/*/*** src/*/***",
-        "prepare": "tsc --listEmittedFiles",
-        "test": "jest"
-    },
-    "jest": {
-        "setupFiles": [
-            "<rootDir>/testSetupFile.js"
-        ],
-        "testEnvironment": "node",
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js"
-        ],
-        "transform": {
-            "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
-        },
-        "testMatch": [
-            "<rootDir>/test/**/*.(ts|tsx|js)"
-        ]
-    },
-    "dependencies": {
-        "axios": "^0.16.2",
-        "elasticio-node": "0.0.8",
-        "elasticio-sailor-nodejs": "^2.1.3",
-        "lodash": "^4.17.4",
-        "typescript": "^2.4.0"
-    },
-    "devDependencies": {
-        "@types/fs-extra": "^4.0.0",
-        "@types/jest": "^20.0.7",
-        "@types/lodash": "^4.14.66",
-        "@types/nock": "^8.2.1",
-        "@types/node": "^8.0.22",
-        "fs-extra": "^4.0.1",
-        "jest": "^20.0.4",
-        "nock": "^9.0.13",
-        "tslint": "^5.4.3",
-        "tslint-language-service": "^0.9.6"
-    }
+    "testMatch": [
+      "<rootDir>/test/**/*.(ts|tsx|js)"
+    ]
+  },
+  "dependencies": {
+    "@openintegrationhub/ferryman": "^1.0.1",
+    "axios": "^0.16.2",
+    "elasticio-node": "0.0.8",
+    "elasticio-sailor-nodejs": "^2.1.3",
+    "lodash": "^4.17.4",
+    "typescript": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^4.0.0",
+    "@types/jest": "^20.0.7",
+    "@types/lodash": "^4.14.66",
+    "@types/nock": "^8.2.1",
+    "@types/node": "^8.0.22",
+    "fs-extra": "^4.0.1",
+    "jest": "^20.0.4",
+    "nock": "^9.0.13",
+    "tslint": "^5.4.3",
+    "tslint-language-service": "^0.9.6"
+  }
 }
