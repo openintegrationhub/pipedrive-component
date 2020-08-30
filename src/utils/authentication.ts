@@ -14,8 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-const request = require("request-promise");
-
 // const uri = 'https://api.snazzycontacts.com/api/iam/login';
 
 // /**

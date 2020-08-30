@@ -20,7 +20,7 @@ limitations under the License.
 
 const Q = require("q");
 const { newMessage } = require("../helpers");
-const { getEntries } = require("./../utils/helpers");
+const { getEntries } = require("../utils/helpers");
 ///const { getToken } = require('./../utils/authentication');
 
 /**
@@ -32,7 +32,7 @@ const { getEntries } = require("./../utils/helpers");
  */
 async function processTrigger(
   cfg: ComponentConfig,
-  snapshot = { lastUpdated: Date }
+  snapshot: { lastUpdated: Date }
 ) {
   // Authenticate and get the token from Snazzy Contacts
   const { applicationUid, domainId, schema, recordUid } = cfg;
@@ -61,14 +61,14 @@ async function processTrigger(
 
     // Get the total amount of fetched objects
     let count;
-    const getCount = await getEntries(token, snapshot, count, "organization");
+    const getCount = await getEntries(token, snapshot, count, "organizations");
     count = getCount.count; // eslint-disable-line
 
     const organizations = await getEntries(
       token,
       snapshot,
       count,
-      "organization"
+      "organizations"
     );
 
     console.log(`Found ${organizations.result.length} new records.`);

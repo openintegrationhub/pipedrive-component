@@ -1,6 +1,8 @@
 //const request = require('request-promise').defaults({ simple: false, resolveWithFullResponse: true });
 
 const BASE_URI = "https://api.pipedrive.com/v1/";
+const request = require("request-promise");
+
 /**
  * This method fetches persons or organizations from Snazzy Contacts
  *

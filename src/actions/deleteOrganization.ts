@@ -14,8 +14,7 @@ limitations under the License.
 // import { ComponentConfig } from "../models/componentConfig";
 
 // const Q = require("q");
-// // const request = require('request-promise').defaults({ simple: false, resolveWithFullResponse: true });
-// // const { getToken } = require('./../utils/authentication');
+
 // import { APIClient } from "../apiclient";
 
 // exports.process = deleteOrganization;

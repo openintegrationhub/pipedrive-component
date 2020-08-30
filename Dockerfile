@@ -1,6 +1,6 @@
 FROM node:10-alpine
 LABEL NAME="pipedrive-connector"
-LABEL MAINTAINER Ioannis Lafiotis "syanev@wice.de"
+LABEL MAINTAINER Ioannis Lafiotis "ioannis.lafiotis@cloudecosystem.org"
 LABEL SUMMARY="This image is used to start the Pipedrive connector for OIH"
 
 RUN apk --no-cache add \
