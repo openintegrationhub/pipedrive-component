@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:12-alpine
 LABEL NAME="pipedrive-connector"
 LABEL MAINTAINER Ioannis Lafiotis "ioannis.lafiotis@cloudecosystem.org"
 LABEL SUMMARY="This image is used to start the Pipedrive connector for OIH"

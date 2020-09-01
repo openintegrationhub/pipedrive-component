@@ -20,7 +20,7 @@ limitations under the License.
 // exports.process = deleteOrganization;
 
 // /**
-//  * @desc Delete an organization in Snazzy Contacts
+//  * @desc Delete an organization in Pipedrive
 //  *
 //  * @access  Private
 //  * @param {Object} msg - the whole incoming object
@@ -44,8 +44,6 @@ limitations under the License.
 // if (!uid) {
 //   return 'Uid is not defined!';
 // }
-
-// const uri = `https://api.snazzycontacts.com/api/organization/${uid}`;
 
 // const options = {
 //   uri,
@@ -83,11 +81,12 @@ const Q = require("q");
 
 async function processAction(msg: any, cfg: ComponentConfig) {
   const { uid } = msg.body;
+
   const self = this;
   let client = new APIClient(cfg.company_domain, cfg.token);
 
   async function emitData() {
-    const reply = await client.deleteOrganization(msg, uid);
+    const reply = await client.deleteOrganization(msg.organization, uid);
     self.emit("data", reply);
   }
 
@@ -96,7 +95,7 @@ async function processAction(msg: any, cfg: ComponentConfig) {
    *
    * @param e - object containg the error
    */
-  function emitError(e: string) {
+  function emitError(e: {}) {
     console.log("Oops! Error occurred");
     self.emit("error", e);
   }

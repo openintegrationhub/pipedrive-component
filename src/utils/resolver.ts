@@ -1,5 +1,7 @@
 /* eslint consistent-return: "off" */
 
+import { ComponentConfig } from "../models/componentConfig";
+
 // const request = require('request-promise').defaults({
 //   simple: false,
 //   resolveWithFullResponse: true,
@@ -24,17 +26,22 @@ const rules = {
 cfm.setGlobalRules(globalRules);
 cfm.setRules(rules);
 
-const BASE_URI = `https://api.pipedrive.com/v1`;
+//const BASE_URI = `https://api.pipedrive.com/v1`;
 
 /**
- * @desc Check if the object alredy exists in Snazzy Contacts
+ * @desc Check if the object alredy exists in Pipedrive
  *
  * @access  Private
  * @param {Object} msg - the whole incoming object
- * @param {String} token - token from Snazzy Contacts
+ * @param {String} token - token from Pipedrive
  * @return {Object} - the found object or false in case if it is not found
  */
-async function checkForExistingObject(msg: any, token: string, type: string) {
+async function checkForExistingObject(
+  msg: any,
+  token: string,
+  type: string,
+  cfg: ComponentConfig
+) {
   if (!token || !msg) {
     return false;
   }
@@ -42,7 +49,7 @@ async function checkForExistingObject(msg: any, token: string, type: string) {
   try {
     const options = {
       method: "GET",
-      uri: `${BASE_URI}/${type}/${msg.body.meta.recordUid}`,
+      uri: `https://${cfg.company_domain}.pipedrive.com/v1/${type}/${msg.body.meta.recordUid}`,
       json: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -87,11 +94,16 @@ function resolveConflict(
  *
  * @access  Private
  * @param {Object} msg - the whole incoming object
- * @param {String} token - token from Snazzy Contacts
+ * @param {String} token - token from Pipedrive
  * @return {Object} - the resolved object and a boolean value if the object exists
  */
-async function resolve(msg: any, token: string, type: string) {
-  const appObject = await checkForExistingObject(msg, token, type);
+async function resolve(
+  msg: any,
+  token: string,
+  type: string,
+  cfg: ComponentConfig
+) {
+  const appObject = await checkForExistingObject(msg, token, type, cfg);
 
   if (appObject) {
     const exists = true;

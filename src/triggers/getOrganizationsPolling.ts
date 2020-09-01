@@ -34,8 +34,8 @@ async function processTrigger(
   cfg: ComponentConfig,
   snapshot: { lastUpdated: Date }
 ) {
-  // Authenticate and get the token from Snazzy Contacts
-  const { applicationUid, domainId, schema, recordUid } = cfg;
+  // Authenticate and get the token from Pipedrive
+  const { applicationUid, domainId, schema, recordUid, token } = cfg;
   // const token = cfg.API_KEY;
   // const token = cfg.token;
   const self = this;

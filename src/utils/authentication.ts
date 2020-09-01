@@ -18,7 +18,7 @@ limitations under the License.
 //  const uri = 'https://api.pipedrive.com/v1/users/me?api_token=' + api_token;
 
 // /**
-//  * This method will authenticate the user in Snazzy Contacts
+//  * This method will authenticate the user in Pipedrive
 //  * and return a Bearer token if it is successful
 //  *
 //  * @param {Object} config - incoming message object that contains username and password
