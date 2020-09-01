@@ -107,9 +107,17 @@
     },
     "upsertOrganization": {
       "main": "./lib/actions/upsertOrganization.js",
-      "title": "Upsert an organization  in Pipedrive",
+      "title": "Upsert an organization in Pipedrive",
       "metadata": {
         "in": "./lib/schemas/upsertOrganization.in.json"
+      }
+    },
+    "upsertPerson": {
+      "title": "Upsert a person in Snazzy Contacts",
+      "main": "./lib/actions/upsertPerson.js",
+      "metadata": {
+        "in": "./lib/schemas/upsertPerson.in.json",
+        "out": "./lib/schemas/upsertPerson.out.json"
       }
     }
   }
