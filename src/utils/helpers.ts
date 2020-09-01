@@ -121,6 +121,7 @@ async function upsertObject(
     // Update the object if it already exists
     method = "PUT";
     //uri = `${BASE_URI}/${type}/${meta.recordUid}`;
+    uri = `https://${cfg.company_domain}.pipedrive.com/v1/${type}/${meta.recordUid}`;
     if (type === "organization") {
       newObject = client.upsertOganization(newObject, meta.recordUid);
     }
@@ -129,7 +130,7 @@ async function upsertObject(
   } else {
     // Create the object if it does not exist
     method = "POST";
-    uri = `${BASE_URI}/${type}`;
+    uri = `https://${cfg.company_domain}.pipedrive.com/v1/${type}`;
     newObject = msg;
     delete newObject.uid;
     delete newObject.categories;
