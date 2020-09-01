@@ -42,14 +42,14 @@ export class APIClient {
   async createActivity(activity: Activity) {
     return this.create<Activity>(activity, "activities");
   }
-  async upsertOganization(organization: Organization) {
-    return this.upsert<Organization>(organization, "organizations");
+  async upsertOganization(organization: Organization, uid: string) {
+    return this.upsert<Organization>(organization, `organizations/${uid}`);
   }
   async deleteOrganization(organization: Organization, uid: string) {
     return this.delete<Organization>(organization, `organizations/${uid}`);
   }
-  async getOrganizations(organization: Organization) {
-    return this.getData<Organization>(organization);
+  async getOrganizations() {
+    return this.getData<Organization[]>();
   }
 
   private async create<T>(payload: T, endpointName: string): Promise<T> {
@@ -80,8 +80,8 @@ export class APIClient {
     }
     return <T>result.data;
   }
-  private async getData<T>(payload: T): Promise<T> {
-    const response = await this.http.get("/organizations", payload);
+  private async getData<T>(): Promise<T> {
+    const response = await this.http.get("/organizations");
     const result = <APIResult>response.data;
     if (!result.success) {
       throw new Error("could not entity for endpoint ");

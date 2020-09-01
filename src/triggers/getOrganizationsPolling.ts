@@ -37,7 +37,7 @@ async function processTrigger(
   // Authenticate and get the token from Snazzy Contacts
   const { applicationUid, domainId, schema, recordUid } = cfg;
   // const token = cfg.API_KEY;
-  const token = cfg.token;
+  // const token = cfg.token;
   const self = this;
 
   // Set the snapshot if it is not provided
@@ -60,15 +60,16 @@ async function processTrigger(
     };
 
     // Get the total amount of fetched objects
+    // do we need the count???
     let count;
-    const getCount = await getEntries(token, snapshot, count, "organizations");
+    const getCount = await getEntries(snapshot, count, "organizations");
     count = getCount.count; // eslint-disable-line
 
     const organizations = await getEntries(
-      token,
       snapshot,
       count,
-      "organizations"
+      "organizations",
+      cfg
     );
 
     console.log(`Found ${organizations.result.length} new records.`);

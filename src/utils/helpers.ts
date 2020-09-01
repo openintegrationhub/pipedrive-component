@@ -1,7 +1,10 @@
 //const request = require('request-promise').defaults({ simple: false, resolveWithFullResponse: true });
 
+import { ComponentConfig } from "../models/componentConfig";
+import { APIClient } from "../apiclient";
+
 const BASE_URI = "https://api.pipedrive.com/v1/";
-const request = require("request-promise");
+export const request = require("request-promise");
 
 /**
  * This method fetches persons or organizations from Snazzy Contacts
@@ -87,19 +90,25 @@ function prepareObject(msg: any, type: string) {
  *
  * @access  Private
  * @param {Object} msg - the whole incoming object
- * @param {String} token - token from Snazzy Contacts
+ * @param {String} token - token from Pipefrive
  * @param {Boolean} objectExists - ig the object was found
  * @param {String} type - object type - 'person' or 'organization'
  * @param {Object} meta -  meta object containg meta inforamtion
- * @return {Object} - the new created ot update object in Snazzy Contacts
+ * @return {Object} - the new created ot update object in Pipedrive
  */
 async function upsertObject(
   msg: any,
   token: string,
   objectExists: boolean,
   type: string,
-  meta: { recordUid: any }
+  meta: { recordUid: any },
+  cfg: ComponentConfig
 ) {
+  cfg.token = cfg.token.trim();
+  cfg.company_domain = cfg.company_domain.trim();
+
+  let client = new APIClient(cfg.company_domain, cfg.token);
+
   if (!type) {
     return false;
   }
@@ -111,7 +120,10 @@ async function upsertObject(
   if (objectExists) {
     // Update the object if it already exists
     method = "PUT";
-    uri = `${BASE_URI}/${type}/${meta.recordUid}`;
+    //uri = `${BASE_URI}/${type}/${meta.recordUid}`;
+    if (type === "organization") {
+      newObject = client.upsertOganization(newObject, meta.recordUid);
+    }
     newObject = prepareObject(msg, type);
     delete newObject.uid;
   } else {
@@ -152,17 +164,20 @@ async function upsertObject(
  * @return {Object} - Array of person objects containing data and meta
  */
 async function getEntries(
-  token: string,
   snapshot: { lastUpdated: Date },
   count: number,
-  type: string
+  type: string,
+  cfg: ComponentConfig
 ) {
+  cfg.token = cfg.token.trim();
+  cfg.company_domain = cfg.company_domain.trim();
+
   let uri;
 
   if (count) {
-    uri = `${BASE_URI}/${type}?num=${count}`;
+    uri = `https://${cfg.company_domain}.pipedrive.com/v1/${type}?num=${count}`;
   } else {
-    uri = `${BASE_URI}/${type}`;
+    uri = `https://${cfg.company_domain}.pipedrive.com/v1/${type}`;
   }
 
   try {
@@ -170,7 +185,7 @@ async function getEntries(
       uri,
       json: true,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cfg.token}`,
       },
     };
     let entries: any;

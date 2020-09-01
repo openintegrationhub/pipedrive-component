@@ -5,7 +5,7 @@
 //   resolveWithFullResponse: true,
 // });
 const CFM = require("@wice-devs/cfm");
-
+const request = require("./helpers");
 // CFM Configuration
 const cfm = new CFM();
 const globalRules = {
@@ -24,7 +24,7 @@ const rules = {
 cfm.setGlobalRules(globalRules);
 cfm.setRules(rules);
 
-// const BASE_URI = `https://${companyDomain}.snazzycontacts.com/api`;
+const BASE_URI = `https://api.pipedrive.com/v1`;
 
 /**
  * @desc Check if the object alredy exists in Snazzy Contacts

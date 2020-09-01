@@ -14,7 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-// const uri = 'https://api.snazzycontacts.com/api/iam/login';
+//  const api_token = ""
+//  const uri = 'https://api.pipedrive.com/v1/users/me?api_token=' + api_token;
 
 // /**
 //  * This method will authenticate the user in Snazzy Contacts
