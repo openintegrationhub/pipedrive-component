@@ -1,99 +1,116 @@
 {
-    "title": "Pipedrive",
-    "description": "elastic.io integration component for pipedrive",
-    "docsUrl": "https://www.mvise.de",
-    "credentials": {
-        "fields": {
-            "company_domain": {
-                "viewClass": "TextFieldView",
-                "label": "Company domain",
-                "required": true,
-                "placeholder": "The company domain used in pipedrive"
-            },
-            "token": {
-                "viewClass": "TextFieldView",
-                "label": "API token",
-                "required": true,
-                "placeholder": "The API token which will be used to authenticated the component with pipedrive"
-            }
-        }
-    },
-    "triggers": {},
-    "actions": {
-        "createDeal": {
-            "title": "Create a new deal in pipedrive",
-            "main": "./lib/actions/createDeal.js",
-            "metadata": {
-                "in": "./schemas/createDeal.in.json",
-                "out": "./schemas/common.out.json"
-            },
-            "fields": {
-                "owner_id": {
-                    "viewClass": "TextFieldView",
-                    "label": "Owner id",
-                    "placeholder": "Target pipedrive user id to override the default behaviour."
-                }
-            }
-        },
-        "createActivity": {
-            "title": "Create a new activity in pipedrive",
-            "main": "./lib/actions/createDeal.js",
-            "metadata": {
-                "in": "./schemas/createDeal.in.json",
-                "out": "./schemas/common.out.json"
-            },
-            "fields": {
-                "owner_id": {
-                    "viewClass": "TextFieldView",
-                    "label": "Owner id",
-                    "placeholder": "Target pipedrive user id to override the default behaviour."
-                }
-            }
-        },
-        "createNote": {
-            "title": "Create a new note in pipedrive",
-            "main": "./lib/actions/createNote.js",
-            "metadata": {
-                "in": "./schemas/createNote.in.json",
-                "out": "./schemas/common.out.json"
-            },
-            "fields": {
-                "deal_note": {
-                    "viewClass": "TextFieldView",
-                    "label": "Deal note",
-                    "placeholder": "A fixed header for the note which is attached to the deal created."
-                }
-            }
-        },
-        "createOrganisation": {
-            "title": "Create a new organisation in pipedrive",
-            "main": "./lib/actions/createOrganisation.js",
-            "metadata": {
-                "in": "./schemas/createOrganisation.in.json",
-                "out": "./schemas/common.out.json"
-            },
-            "fields": {
-                "owner_id": {
-                    "viewClass": "TextFieldView",
-                    "label": "Owner id",
-                    "placeholder": "Target pipedrive user id to override the default behaviour."
-                }
-            }
-        },
-        "createPerson": {
-            "title": "Create a new person in pipedrive",
-            "main": "./lib/actions/createPerson.js",
-            "metadata": {
-                "in": "./schemas/createPerson.in.json",
-                "out": "./schemas/common.out.json"
-            },
-            "fields": {
-                "owner_id": {
-                    "viewClass": "TextFieldView",
-                    "label": "Owner id",
-                    "placeholder": "Target pipedrive user id to override the default behaviour."
-                }
-            }
-        }
+  "title": "Pipedrive",
+  "description": "elastic.io integration component for pipedrive",
+  "docsUrl": "https://www.mvise.de",
+  "credentials": {
+    "fields": {
+      "company_domain": {
+        "viewClass": "TextFieldView",
+        "label": "Company domain",
+        "required": true,
+        "placeholder": "The company domain used in pipedrive"
+      },
+      "token": {
+        "viewClass": "TextFieldView",
+        "label": "API token",
+        "required": true,
+        "placeholder": "The API token which will be used to authenticated the component with pipedrive"
+      }
     }
+  },
+  "triggers": {
+    "getOrganizationsPolling": {
+      "title": "Fetch new and updated organizations(getOrganizations- Polling)",
+      "description": "Get Pipedrive organizations which have recently been modified or created",
+      "type": "polling",
+      "main": "./lib/triggers/getOrganizationsPolling.js",
+      "metadata": {
+        "out": "./lib/schemas/getOrganizations.out.json"
+      }
+    }
+  },
+  "actions": {
+    "createDeal": {
+      "title": "Create a new deal in pipedrive",
+      "main": "./lib/actions/createDeal.js",
+      "metadata": {
+        "in": "./schemas/createDeal.in.json",
+        "out": "./schemas/common.out.json"
+      },
+      "fields": {
+        "owner_id": {
+          "viewClass": "TextFieldView",
+          "label": "Owner id",
+          "placeholder": "Target pipedrive user id to override the default behaviour."
+        }
+      }
+    },
+    "createActivity": {
+      "title": "Create a new activity in pipedrive",
+      "main": "./lib/actions/createDeal.js",
+      "metadata": {
+        "in": "./schemas/createDeal.in.json",
+        "out": "./schemas/common.out.json"
+      },
+      "fields": {
+        "owner_id": {
+          "viewClass": "TextFieldView",
+          "label": "Owner id",
+          "placeholder": "Target pipedrive user id to override the default behaviour."
+        }
+      }
+    },
+    "createNote": {
+      "title": "Create a new note in pipedrive",
+      "main": "./lib/actions/createNote.js",
+      "metadata": {
+        "in": "./schemas/createNote.in.json",
+        "out": "./schemas/common.out.json"
+      },
+      "fields": {
+        "deal_note": {
+          "viewClass": "TextFieldView",
+          "label": "Deal note",
+          "placeholder": "A fixed header for the note which is attached to the deal created."
+        }
+      }
+    },
+    "createOrganisation": {
+      "title": "Create a new organisation in pipedrive",
+      "main": "./lib/actions/createOrganisation.js",
+      "metadata": {
+        "in": "./schemas/createOrganisation.in.json",
+        "out": "./schemas/common.out.json"
+      },
+      "fields": {
+        "owner_id": {
+          "viewClass": "TextFieldView",
+          "label": "Owner id",
+          "placeholder": "Target pipedrive user id to override the default behaviour."
+        }
+      }
+    },
+    "createPerson": {
+      "title": "Create a new person in pipedrive",
+      "main": "./lib/actions/createPerson.js",
+      "metadata": {
+        "in": "./schemas/createPerson.in.json",
+        "out": "./schemas/common.out.json"
+      },
+      "fields": {
+        "owner_id": {
+          "viewClass": "TextFieldView",
+          "label": "Owner id",
+          "placeholder": "Target pipedrive user id to override the default behaviour."
+        }
+      }
+    },
+    "upsertOrganization": {
+      "main": "./lib/actions/upsertOrganization.js",
+      "title": "Upsert an organization  in Pipedrive",
+      "metadata": {
+        "in": "./lib/schemas/upsertOrganization.in.json"
+      }
+    }
+  }
 }
