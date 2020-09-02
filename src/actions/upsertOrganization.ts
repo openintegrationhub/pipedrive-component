@@ -89,7 +89,7 @@ import { ComponentConfig } from "../models/componentConfig";
  * @param {Object} msg - incoming message object that contains ``body`` with payload
  * @param {Object} cfg - configuration that is account information and configuration field values
  */
-async function processAction(msg: any, cfg: ComponentConfig) {
+async function processAction(msg: ferrymannode.Message, cfg: ComponentConfig) {
   // const token = cfg.API_KEY;
   //   const token = await getToken(cfg);
   cfg.token = cfg.token.trim();

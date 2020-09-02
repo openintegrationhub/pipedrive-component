@@ -79,14 +79,14 @@ import { ComponentConfig } from "../models/componentConfig";
 import { APIClient } from "../apiclient";
 const Q = require("q");
 
-async function processAction(msg: any, cfg: ComponentConfig) {
+async function processAction(msg: ferrymannode.Message, cfg: ComponentConfig) {
   const { uid } = msg.body;
 
   const self = this;
   let client = new APIClient(cfg.company_domain, cfg.token);
 
   async function emitData() {
-    const reply = await client.deleteOrganization(msg.organization, uid);
+    const reply = await client.deleteOrganization(this.organization, uid);
     self.emit("data", reply);
   }
 

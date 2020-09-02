@@ -5,5 +5,5 @@ console.error = function () {};
 console.warn = function () {};
 
 // Monkey patch emit for elasticio-node
-var messages = require("@openintegrationhub/ferryman");
+var messages = require("ferryman-node");
 messages.emit = function () {};
