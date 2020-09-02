@@ -1,7 +1,5 @@
 /* eslint no-param-reassign: "off" */
 
-import { ComponentConfig } from "../models/componentConfig";
-
 /**
  * Copyright 2019 Wice GmbH
 
@@ -19,9 +17,11 @@ limitations under the License.
 */
 
 const Q = require("q");
-const { newMessage } = require("../helpers");
+//const { newMessage } = require("../helpers");
 const { getEntries } = require("../utils/helpers");
 ///const { getToken } = require('./../utils/authentication');
+import { ComponentConfig } from "../models/componentConfig";
+import { messages } from "ferryman-node";
 
 /**
  * This method will be called from OIH platform providing following data
@@ -83,7 +83,7 @@ async function processTrigger(
         newElement.meta = oihMeta;
         newElement.data = elem;
         // Emit the object with meta and data properties
-        self.emit("data", newMessage(newElement));
+        self.emit("data", messages.newMessageWithBody(newElement));
       });
       // Get the lastUpdate property from the last object and attach it to snapshot
       snapshot.lastUpdated =
