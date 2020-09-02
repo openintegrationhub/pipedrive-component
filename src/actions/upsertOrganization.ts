@@ -20,7 +20,7 @@
 //  */
 
 // export async function upsertOrganization(
-//   msg: elasticionode.Message,
+//   msg: any,
 //   cfg: ComponentConfig,
 //   snapshot: any
 // ): Promise<PipedriveMessage> {

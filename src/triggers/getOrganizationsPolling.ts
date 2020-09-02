@@ -35,7 +35,7 @@ async function processTrigger(
   snapshot: { lastUpdated: Date }
 ) {
   // Authenticate and get the token from Pipedrive
-  const { applicationUid, domainId, schema, recordUid, token } = cfg;
+  const { applicationUid, domainId, schema, recordUid } = cfg;
   // const token = cfg.API_KEY;
   // const token = cfg.token;
   const self = this;

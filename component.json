@@ -1,6 +1,6 @@
 {
   "title": "Pipedrive",
-  "description": "elastic.io integration component for pipedrive",
+  "description": "OIH integration component for pipedrive",
   "docsUrl": "https://www.mvise.de",
   "credentials": {
     "fields": {

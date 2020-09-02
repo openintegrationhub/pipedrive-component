@@ -19,7 +19,7 @@ exports.process = createOrganisation;
  * @returns promise resolving a message to be emitted to the platform
  */
 export async function createOrganisation(
-  msg: elasticionode.Message,
+  msg: any,
   cfg: ComponentConfig,
   snapshot: any
 ): Promise<PipedriveMessage> {
