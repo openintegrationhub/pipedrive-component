@@ -41,6 +41,7 @@
     "@openintegrationhub/ferryman": "^1.0.1",
     "axios": "^0.16.2",
     "lodash": "^4.17.4",
+    "request": "^2.88.2",
     "typescript": "^4.0.2"
   },
   "devDependencies": {
@@ -53,6 +54,11 @@
     "jest": "^20.0.4",
     "nock": "^9.0.13",
     "tslint": "^5.4.3",
-    "tslint-language-service": "^0.9.6"
-  }
+    "tslint-language-service": "2.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:openintegrationhub/pipedrive-component.git"
+  },
+  "license": "OpenIntegrationHub 2.0"
 }

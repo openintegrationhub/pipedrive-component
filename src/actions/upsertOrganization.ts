@@ -83,7 +83,6 @@ const { upsertObject } = require("./../utils/helpers");
 //  import { APIClient } from "../apiclient";
 import { ComponentConfig } from "../models/componentConfig";
 import { messages } from "ferryman-node";
-
 /**
  * This method will be called from OIH platform providing following data
  *
@@ -92,13 +91,12 @@ import { messages } from "ferryman-node";
  */
 async function processAction(msg: ferrymannode.Message, cfg: ComponentConfig) {
   // const token = cfg.API_KEY;
-  //   const token = await getToken(cfg);
+  // const token = await getToken(cfg);
   cfg.token = cfg.token.trim();
   cfg.company_domain = cfg.company_domain.trim();
   //let client = new APIClient(cfg.company_domain, cfg.token);
 
   const self = this;
-
   const oihUid =
     msg.body.meta !== undefined && msg.body.meta.oihUid !== undefined
       ? msg.body.meta.oihUid

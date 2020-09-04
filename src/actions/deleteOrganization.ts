@@ -71,8 +71,8 @@ limitations under the License.
 /**
  * This method will be called from OIH platform providing following data
  *
- * // @param msg incoming message object that contains ``body`` with payload
- * // @param cfg configuration that is account information and configuration field values
+ *  @param msg incoming message object that contains ``body`` with payload
+ *  @param cfg configuration that is account information and configuration field values
  */
 
 import { ComponentConfig } from "../models/componentConfig";
@@ -86,7 +86,7 @@ async function processAction(msg: ferrymannode.Message, cfg: ComponentConfig) {
   let client = new APIClient(cfg.company_domain, cfg.token);
 
   async function emitData() {
-    const reply = await client.deleteOrganization(this.organization, uid);
+    const reply = await client.deleteOrganization(self.organization, uid);
     self.emit("data", reply);
   }
 

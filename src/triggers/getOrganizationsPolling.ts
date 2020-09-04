@@ -36,6 +36,7 @@ async function processTrigger(
 ) {
   // Authenticate and get the token from Pipedrive
   const { applicationUid, domainId, schema, recordUid } = cfg;
+
   // const token = cfg.API_KEY;
   // const token = cfg.token;
   const self = this;

@@ -4,7 +4,10 @@ import { ComponentConfig } from "../models/componentConfig";
 import { APIClient } from "../apiclient";
 
 //const BASE_URI = "https://api.pipedrive.com/v1/";
-export const request = require("request-promise");
+export const request = require("request-promise").defaults({
+  simple: false,
+  resolveWithFullResponse: true,
+});
 
 /**
  * This method fetches persons or organizations from Snazzy Contacts
