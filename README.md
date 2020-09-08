@@ -8,7 +8,8 @@ pipedrive Component component for the [elastic.io platform](http://www.elastic.i
 
 ## Before you Begin
 
-Before you can deploy any code into elastic.io **you must be a registered elastic.io platform user**. Please see our home page at [http://www.elastic.io](http://www.elastic.io) to learn how.
+Before you can use the adapter you **must be a registered Pipedrive user**. Please visit the home page of [pipedrive.com](https://pipedrive.com) to sign up.
+Any attempt to reach [ Pipedrive ](https://pipedrive.com) endpoints without registration will not be successful!
 
 ## Getting Started
 
