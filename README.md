@@ -53,6 +53,18 @@ Delete organization action (deleteOrganization.ts) deletes an existing organizat
 
 Get organizations trigger (getOrganizationsPolling.ts) performs a request which fetch all organizations saved by a user in Pipedrive.
 
+### Get activities
+
+Get activities trigger (getActivitiesPolling.ts) performs a request which fetch all activities saved by a user in Pipedrive.
+
+### Get deals
+
+Get deals trigger (getDealsPolling.ts) performs a request which fetch all deals saved by a user in Pipedrive.
+
+### Get persons
+
+Get persons trigger (getPersonsPolling.ts) performs a request which fetch all persons saved by a user in Pipedrive.
+
 ## Known issues
 
 No known issues are there yet.
