@@ -26,7 +26,6 @@ import { messages } from "ferryman-node";
 /**
  * This method will be called from OIH platform providing following data
  *
- * @param msg - incoming message object that contains ``body`` with payload
  * @param cfg - configuration that is account information and configuration field values
  * @param snapshot - saves the current state of integration step for the future reference
  */
@@ -63,20 +62,15 @@ async function processTrigger(
     // Get the total amount of fetched objects
     // do we need the count???
     let count;
-    const getCount = await getEntries(snapshot, count, "organizations");
+    const getCount = await getEntries(snapshot, count, "deals");
     count = getCount.count; // eslint-disable-line
 
-    const organizations = await getEntries(
-      snapshot,
-      count,
-      "organizations",
-      cfg
-    );
+    const deals = await getEntries(snapshot, count, "deals", cfg);
 
-    console.log(`Found ${organizations.result.length} new records.`);
+    console.log(`Found ${deals.result.length} new records.`);
 
-    if (organizations.result.length > 0) {
-      organizations.result.forEach((elem: any) => {
+    if (deals.result.length > 0) {
+      deals.result.forEach((elem: any) => {
         const newElement = { meta: {}, data: elem };
         // Attach object uid to oihMeta object
         oihMeta.recordUid = elem.uid;
@@ -87,8 +81,7 @@ async function processTrigger(
         self.emit("data", messages.newMessageWithBody(newElement));
       });
       // Get the lastUpdate property from the last object and attach it to snapshot
-      snapshot.lastUpdated =
-        organizations.result[organizations.result.length - 1].lastUpdate;
+      snapshot.lastUpdated = deals.result[deals.result.length - 1].lastUpdate;
       console.log(`New snapshot: ${snapshot.lastUpdated}`);
       self.emit("snapshot", snapshot);
     } else {

@@ -60,5 +60,5 @@
     "type": "git",
     "url": "git@github.com:openintegrationhub/pipedrive-component.git"
   },
-  "license": "OpenIntegrationHub 2.0"
+  "license": "Apache-2.0 © elastic.io GmbH"
 }
