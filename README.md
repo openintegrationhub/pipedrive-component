@@ -19,6 +19,14 @@ You need to configure your company domain and access token to authenticate the p
 
 # Actions
 
+- Create person (`createPerson.ts`)
+- Create organization(`createOrganization.ts`)
+- Upsert organization(`upsertOrganization.ts`)
+- Create person (`createPerson.ts`)
+- Delete organization(`deleteOrganization.ts`)
+- Create activity (`cretaeActivity.ts`)
+- Create organization(`upsertOrganization.ts`)
+
 ### Create Deals
 
 You can create deals with the help of the createDeal action. It will automatically create an organisation, a contact, a deal and a notice for the deal for you.
@@ -49,6 +57,11 @@ Delete organization action (deleteOrganization.ts) deletes an existing organizat
 
 # Triggers
 
+- Get persons - polling (`getPersonsPolling.js`)
+- Get organizations - polling (`getOrganizationsPolling.ts`)
+- Get deals - polling (`getDealsPolling.ts`)
+- Get activities - polling (`getActivitiesPolling.ts`)
+
 ### Get organizations
 
 Get organizations trigger (getOrganizationsPolling.ts) performs a request which fetch all organizations saved by a user in Pipedrive.
@@ -68,6 +81,7 @@ Get persons trigger (getPersonsPolling.ts) performs a request which fetch all pe
 ## Known issues
 
 No known issues are there yet.
+Issue connecting the connector with the webhook site to test the triggers...
 
 ## TODOs
 

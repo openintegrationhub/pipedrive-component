@@ -21,7 +21,7 @@ const Q = require("q");
 const { getEntries } = require("../utils/helpers");
 ///const { getToken } = require('./../utils/authentication');
 import { ComponentConfig } from "../models/componentConfig";
-import { messages } from "ferryman-node";
+import { messages } from "ferryman";
 
 /**
  * This method will be called from OIH platform providing following data

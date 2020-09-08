@@ -82,7 +82,7 @@ const { resolve } = require("./../utils/resolver");
 const { upsertObject } = require("./../utils/helpers");
 //  import { APIClient } from "../apiclient";
 import { ComponentConfig } from "../models/componentConfig";
-import { messages } from "ferryman-node";
+import { messages } from "ferryman";
 /**
  * This method will be called from OIH platform providing following data
  *
