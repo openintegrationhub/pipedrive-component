@@ -23,9 +23,13 @@ async function fetchAll(options: {}, snapshot: { lastUpdated: Date }) {
 
     const entries = await request.get(options);
 
+    console.log('RESPONSE');
+    console.log(entries.body.data);
+    console.log(entries.body.data[0]);
+
     if (
-      Object.entries(entries.body).length === 0 &&
-      entries.body.constructor === Object
+      Object.entries(entries.bodydata).length === 0 &&
+      entries.body.data.constructor === Object
     ) {
       return false;
     }
@@ -42,8 +46,7 @@ async function fetchAll(options: {}, snapshot: { lastUpdated: Date }) {
       (a, b) => parseInt(a.lastUpdate, 10) - parseInt(b.lastUpdate, 10)
     );
     return {
-      result,
-      count: entries.body.meta.count,
+      result
     };
   } catch (e) {
     throw new Error(e);
@@ -169,7 +172,6 @@ async function upsertObject(
  */
 async function getEntries(
   snapshot: { lastUpdated: Date },
-  count: number,
   type: string,
   cfg: ComponentConfig
 ) {
@@ -178,11 +180,8 @@ async function getEntries(
 
   let uri;
 
-  if (count) {
-    uri = `https://${cfg.company_domain}.pipedrive.com/v1/${type}?num=${count}`;
-  } else {
-    uri = `https://${cfg.company_domain}.pipedrive.com/v1/${type}`;
-  }
+  uri = `https://${cfg.company_domain}.pipedrive.com/v1/${type}?api_token=${cfg.token}`;
+
 
   try {
     const requestOptions = {
