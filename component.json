@@ -27,6 +27,33 @@
       "metadata": {
         "out": "./lib/schemas/getOrganizations.out.json"
       }
+    },
+    "getPersonsPolling": {
+      "title": "Fetch new and updated persons(getPersons - Polling)",
+      "description": "Get Pipedrive persons which have recently been modified or created",
+      "type": "polling",
+      "main": "./lib/triggers/getPersonsPolling.js",
+      "metadata": {
+        "out": "./lib/schemas/getPersons.out.json"
+      }
+    },
+    "getActivitiesPolling": {
+      "title": "Fetch new and updated organizations(getActivities- Polling)",
+      "description": "Get Pipedrive activities which have recently been modified or created",
+      "type": "polling",
+      "main": "./lib/triggers/getActivitiesPolling.js",
+      "metadata": {
+        "out": "./lib/schemas/getActivities.out.json"
+      }
+    },
+    "getDealsPolling": {
+      "title": "Fetch new and updated deals(getDeals- Polling)",
+      "description": "Get Pipedrive deals which have recently been modified or created",
+      "type": "polling",
+      "main": "./lib/triggers/getDealsPolling.js",
+      "metadata": {
+        "out": "./lib/schemas/getDeals.out.json"
+      }
     }
   },
   "actions": {
