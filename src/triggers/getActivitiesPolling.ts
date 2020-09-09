@@ -59,12 +59,6 @@ async function processTrigger(
         recordUid !== undefined && recordUid !== null ? recordUid : undefined,
     };
 
-    // Get the total amount of fetched objects
-    // do we need the count???
-    // let count;
-    // const getCount = await getEntries(snapshot, count, "organizations");
-    // count = getCount.count; // eslint-disable-line
-
     const activities = await getEntries(snapshot, "activities", cfg);
 
     console.log(`Found ${activities.result.length} new records.`);

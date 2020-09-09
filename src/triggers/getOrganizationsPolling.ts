@@ -51,8 +51,8 @@ async function processTrigger(
      * to make the Hub and Spoke architecture work properly
      */
 
-     console.log('CONFIG: ');
-     console.log(cfg);
+    console.log("CONFIG: ");
+    console.log(cfg);
     const oihMeta = {
       applicationUid:
         applicationUid !== undefined && applicationUid !== null
@@ -65,24 +65,7 @@ async function processTrigger(
         recordUid !== undefined && recordUid !== null ? recordUid : undefined,
     };
 
-    // Get the total amount of fetched objects
-    // do we need the count???
-<<<<<<< HEAD
-    // let count;
-    // const getCount = await getEntries(snapshot, count, "organizations");
-    // count = getCount.count; // eslint-disable-line
-
     const organizations = await getEntries(snapshot, "organizations", cfg);
-=======
-    // const getCount = await getEntries(snapshot, count, "organizations");
-    // count = getCount.count; // eslint-disable-line
-
-    const organizations = await getEntries(
-      snapshot,
-      "organizations",
-      cfg
-    );
->>>>>>> 7686aafacd5234016152b482833471d04580869c
 
     console.log(`Found ${organizations.result.length} new records.`);
 
