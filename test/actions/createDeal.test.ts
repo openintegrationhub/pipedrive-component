@@ -4,7 +4,7 @@ import { messages } from "ferryman-node";
 import { readFile } from "fs-extra";
 import * as nock from "nock";
 
-import { createDeal } from "../../src/actions/createDeal";
+///import { createDeal } from "../../src/actions/createDeal";
 import { createActivity } from "../../src/actions/createActivity";
 import { createNote } from "../../src/actions/createNote";
 import { createOrganisation } from "../../src/actions/createOrganisation";

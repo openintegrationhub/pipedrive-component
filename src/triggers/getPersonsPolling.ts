@@ -21,7 +21,7 @@ const Q = require("q");
 const { getEntries } = require("../utils/helpers");
 ///const { getToken } = require('./../utils/authentication');
 import { ComponentConfig } from "../models/componentConfig";
-import { messages } from "ferryman";
+import { messages } from "ferryman-node";
 
 /**
  * This method will be called from OIH platform providing following data
@@ -61,11 +61,11 @@ async function processTrigger(
 
     // Get the total amount of fetched objects
     // do we need the count???
-    let count;
-    const getCount = await getEntries(snapshot, count, "persons");
-    count = getCount.count; // eslint-disable-line
+    // let count;
+    // const getCount = await getEntries(snapshot, count, "organizations");
+    // count = getCount.count; // eslint-disable-line
 
-    const persons = await getEntries(snapshot, count, "persons", cfg);
+    const persons = await getEntries(snapshot, "persons", cfg);
 
     console.log(`Found ${persons.result.length} new records.`);
 

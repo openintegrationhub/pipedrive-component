@@ -13,6 +13,6 @@ declare namespace ferrymannode {
   }
 }
 
-declare module "ferryman" {
+declare module "ferryman-node" {
   var messages: ferrymannode.MessagesModule;
 }

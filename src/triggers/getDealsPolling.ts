@@ -17,11 +17,11 @@ limitations under the License.
 */
 
 const Q = require("q");
-//const { newMessage } = require("../helpers");
+const { newMessage } = require("../helpers");
 const { getEntries } = require("../utils/helpers");
 ///const { getToken } = require('./../utils/authentication');
 import { ComponentConfig } from "../models/componentConfig";
-import { messages } from "ferryman";
+//import { messages } from "ferryman-node";
 
 /**
  * This method will be called from OIH platform providing following data
@@ -61,11 +61,11 @@ async function processTrigger(
 
     // Get the total amount of fetched objects
     // do we need the count???
-    let count;
-    const getCount = await getEntries(snapshot, count, "deals");
-    count = getCount.count; // eslint-disable-line
+    // let count;
+    // const getCount = await getEntries(snapshot, count, "organizations");
+    // count = getCount.count; // eslint-disable-line
 
-    const deals = await getEntries(snapshot, count, "deals", cfg);
+    const deals = await getEntries(snapshot, "deals", cfg);
 
     console.log(`Found ${deals.result.length} new records.`);
 
@@ -78,7 +78,7 @@ async function processTrigger(
         newElement.meta = oihMeta;
         newElement.data = elem;
         // Emit the object with meta and data properties
-        self.emit("data", messages.newMessageWithBody(newElement));
+        self.emit("data", newMessage(newElement));
       });
       // Get the lastUpdate property from the last object and attach it to snapshot
       snapshot.lastUpdated = deals.result[deals.result.length - 1].lastUpdate;

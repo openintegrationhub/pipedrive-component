@@ -6,7 +6,7 @@ import { PipedriveMessage } from "../models/pipedriveMessage";
 import { ComponentConfig } from "../models/componentConfig";
 const Q = require("q");
 import { APIClient } from "../apiclient";
-import { messages } from "ferryman";
+import { messages } from "ferryman-node";
 
 /**
  * createDeal creates a new deal.
