@@ -30,11 +30,14 @@ import { ComponentConfig } from "../models/componentConfig";
  * @param snapshot - saves the current state of integration step for the future reference
  */
 async function processTrigger(
+  msg: any,
   cfg: ComponentConfig,
   snapshot: { lastUpdated: Date }
 ) {
   // Authenticate and get the token from Pipedrive
   const { applicationUid, domainId, schema, recordUid } = cfg;
+
+  console.log(msg);
 
   // const token = cfg.API_KEY;
   // const token = cfg.token;
@@ -47,6 +50,9 @@ async function processTrigger(
     /** Create an OIH meta object which is required
      * to make the Hub and Spoke architecture work properly
      */
+
+     console.log('CONFIG: ');
+     console.log(cfg);
     const oihMeta = {
       applicationUid:
         applicationUid !== undefined && applicationUid !== null
@@ -61,11 +67,22 @@ async function processTrigger(
 
     // Get the total amount of fetched objects
     // do we need the count???
+<<<<<<< HEAD
     // let count;
     // const getCount = await getEntries(snapshot, count, "organizations");
     // count = getCount.count; // eslint-disable-line
 
     const organizations = await getEntries(snapshot, "organizations", cfg);
+=======
+    // const getCount = await getEntries(snapshot, count, "organizations");
+    // count = getCount.count; // eslint-disable-line
+
+    const organizations = await getEntries(
+      snapshot,
+      "organizations",
+      cfg
+    );
+>>>>>>> 7686aafacd5234016152b482833471d04580869c
 
     console.log(`Found ${organizations.result.length} new records.`);
 

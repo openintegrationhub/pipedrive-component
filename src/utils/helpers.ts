@@ -23,7 +23,11 @@ async function fetchAll(options: {}, snapshot: { lastUpdated: Date }) {
 
     const entries = await request.get(options);
 
+<<<<<<< HEAD
     console.log("RESPONSE");
+=======
+    console.log('RESPONSE');
+>>>>>>> 7686aafacd5234016152b482833471d04580869c
     console.log(entries.body.data);
     console.log(entries.body.data[0]);
 
@@ -46,7 +50,11 @@ async function fetchAll(options: {}, snapshot: { lastUpdated: Date }) {
       (a, b) => parseInt(a.lastUpdate, 10) - parseInt(b.lastUpdate, 10)
     );
     return {
+<<<<<<< HEAD
       result,
+=======
+      result
+>>>>>>> 7686aafacd5234016152b482833471d04580869c
     };
   } catch (e) {
     throw new Error(e);
@@ -181,6 +189,10 @@ async function getEntries(
   let uri;
 
   uri = `https://${cfg.company_domain}.pipedrive.com/v1/${type}?api_token=${cfg.token}`;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7686aafacd5234016152b482833471d04580869c
 
   try {
     const requestOptions = {
