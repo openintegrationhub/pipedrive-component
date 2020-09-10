@@ -18,7 +18,7 @@ exports.process = createNote;
  * @returns promise resolving a message to be emitted to the platform
  */
 export async function createNote(
-  msg: ferrymannode.Message,
+  msg: any,
   cfg: ComponentConfig,
   snapshot: any
 ): Promise<PipedriveMessage> {

@@ -77,19 +77,19 @@
 // }
 
 const Q = require("q");
-//const { newMessage } = require("../helpers");
+const { newMessage } = require("../helpers");
 const { resolve } = require("./../utils/resolver");
 const { upsertObject } = require("./../utils/helpers");
 //  import { APIClient } from "../apiclient";
 import { ComponentConfig } from "../models/componentConfig";
-import { messages } from "ferryman-node";
+// import { messages } from "ferryman-node";
 /**
  * This method will be called from OIH platform providing following data
  *
  * @param {Object} msg - incoming message object that contains ``body`` with payload
  * @param {Object} cfg - configuration that is account information and configuration field values
  */
-async function processAction(msg: ferrymannode.Message, cfg: ComponentConfig) {
+async function processAction(msg: any, cfg: ComponentConfig) {
   // const token = cfg.API_KEY;
   // const token = await getToken(cfg);
   cfg.token = cfg.token.trim();
@@ -158,7 +158,7 @@ async function processAction(msg: ferrymannode.Message, cfg: ComponentConfig) {
       newElement.data = reply.body.payload;
     }
 
-    self.emit("data", messages.newMessageWithBody(newElement));
+    self.emit("data", newMessage(newElement));
   }
 
   /**

@@ -30,11 +30,14 @@ import { ComponentConfig } from "../models/componentConfig";
  * @param snapshot - saves the current state of integration step for the future reference
  */
 async function processTrigger(
+  msg: any,
+
   cfg: ComponentConfig,
   snapshot: { lastUpdated: Date }
 ) {
   // Authenticate and get the token from Pipedrive
   const { applicationUid, domainId, schema, recordUid } = cfg;
+  console.log(msg);
 
   // const token = cfg.API_KEY;
   // const token = cfg.token;

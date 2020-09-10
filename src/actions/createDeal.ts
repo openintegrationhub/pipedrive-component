@@ -6,8 +6,7 @@ import { PipedriveMessage } from "../models/pipedriveMessage";
 import { ComponentConfig } from "../models/componentConfig";
 const Q = require("q");
 import { APIClient } from "../apiclient";
-import { messages } from "ferryman-node";
-
+// import { messages } from "ferryman-node";
 /**
  * createDeal creates a new deal.
  *
@@ -18,7 +17,7 @@ import { messages } from "ferryman-node";
  * @returns promise resolving a message to be emitted to the platform
  */
 export async function processAction(
-  msg: ferrymannode.Message,
+  msg: any,
   cfg: ComponentConfig,
   snapshot: any
 ) {
@@ -90,7 +89,7 @@ export async function processAction(
     let ret = <PipedriveMessage>data;
     ret.deal_id = deal.id;
 
-    self.emit("data", messages.newMessageWithBody(ret));
+    self.emit("data", newMessage(ret));
     // return ret;
   }
   function emitError(e: {}) {

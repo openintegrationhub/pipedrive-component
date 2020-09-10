@@ -7,10 +7,10 @@ import { PipedriveMessage } from "../models/pipedriveMessage";
 
 import { APIClient } from "../apiclient";
 
-exports.process = createOrganisation;
+exports.process = createOrganization;
 
 /**
- * createOrganisation creates a new org.
+ * createOrganization creates a new org.
  *
  * @param data incoming messages which is empty for triggers
  * @param cfg object to retrieve triggers configuration values
@@ -18,8 +18,8 @@ exports.process = createOrganisation;
  *
  * @returns promise resolving a message to be emitted to the platform
  */
-export async function createOrganisation(
-  msg: ferrymannode.Message,
+export async function createOrganization(
+  msg: any,
   cfg: ComponentConfig,
   snapshot: any
 ): Promise<PipedriveMessage> {

@@ -79,7 +79,7 @@ import { ComponentConfig } from "../models/componentConfig";
 import { APIClient } from "../apiclient";
 const Q = require("q");
 
-async function processAction(msg: ferrymannode.Message, cfg: ComponentConfig) {
+async function processAction(msg: any, cfg: ComponentConfig) {
   const { uid } = msg.body;
 
   const self = this;

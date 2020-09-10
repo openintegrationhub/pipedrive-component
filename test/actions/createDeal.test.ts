@@ -7,7 +7,7 @@ import * as nock from "nock";
 ///import { createDeal } from "../../src/actions/createDeal";
 import { createActivity } from "../../src/actions/createActivity";
 import { createNote } from "../../src/actions/createNote";
-import { createOrganisation } from "../../src/actions/createOrganisation";
+import { createOrganization } from "../../src/actions/createOrganization";
 import { createPerson } from "../../src/actions/createPerson";
 import { Deal } from "../../src/models/deal";
 import { Status, Done } from "../../src/models/enums";
@@ -68,9 +68,9 @@ describe("Create a deal and all subitems", () => {
       expect.assertions(1);
 
       // Act
-      let res = await createOrganisation.call(this, message, config, {});
+      let res = await createOrganization.call(this, message, config, {});
 
-      console.log("createOrganisation() realResult: " + JSON.stringify(res));
+      console.log("createOrganization() realResult: " + JSON.stringify(res));
       // Assert
       expect(res).toBeDefined();
     });
@@ -167,7 +167,7 @@ describe("Create a deal and all subitems", () => {
         .reply(200, { success: true, data: organization } as APIResult);
 
       // Act
-      await createOrganisation.call(this, message, config, {});
+      await createOrganization.call(this, message, config, {});
 
       // Assert
       expect(createOrganizationAPI.isDone()).toBeTruthy();

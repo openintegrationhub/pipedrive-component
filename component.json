@@ -102,11 +102,11 @@
         }
       }
     },
-    "createOrganisation": {
-      "title": "Create a new organisation in pipedrive",
-      "main": "./lib/actions/createOrganisation.js",
+    "createOrganization": {
+      "title": "Create a new organization in pipedrive",
+      "main": "./lib/actions/createOrganization.js",
       "metadata": {
-        "in": "./schemas/createOrganisation.in.json",
+        "in": "./schemas/createOrganization.in.json",
         "out": "./schemas/common.out.json"
       },
       "fields": {

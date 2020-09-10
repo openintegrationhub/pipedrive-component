@@ -17,11 +17,11 @@ limitations under the License.
 */
 
 const Q = require("q");
-//const { newMessage } = require("../helpers");
+const { newMessage } = require("../helpers");
 const { getEntries } = require("../utils/helpers");
 ///const { getToken } = require('./../utils/authentication');
 import { ComponentConfig } from "../models/componentConfig";
-import { messages } from "ferryman-node";
+// import { messages } from "ferryman-node";
 
 /**
  * This method will be called from OIH platform providing following data
@@ -30,11 +30,14 @@ import { messages } from "ferryman-node";
  * @param snapshot - saves the current state of integration step for the future reference
  */
 async function processTrigger(
+  msg: any,
+
   cfg: ComponentConfig,
   snapshot: { lastUpdated: Date }
 ) {
   // Authenticate and get the token from Pipedrive
   const { applicationUid, domainId, schema, recordUid } = cfg;
+  console.log(msg);
 
   // const token = cfg.API_KEY;
   // const token = cfg.token;
@@ -72,7 +75,7 @@ async function processTrigger(
         newElement.meta = oihMeta;
         newElement.data = elem;
         // Emit the object with meta and data properties
-        self.emit("data", messages.newMessageWithBody(newElement));
+        self.emit("data", newMessage(newElement));
       });
       // Get the lastUpdate property from the last object and attach it to snapshot
       snapshot.lastUpdated =

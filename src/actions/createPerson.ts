@@ -19,7 +19,7 @@ exports.process = createPerson;
  * @returns promise resolving a message to be emitted to the platform
  */
 export async function createPerson(
-  msg: ferrymannode.Message,
+  msg: any,
   cfg: ComponentConfig,
   snapshot: any
 ): Promise<PipedriveMessage> {
