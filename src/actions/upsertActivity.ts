@@ -122,8 +122,9 @@ async function processAction(msg: any, cfg: ComponentConfig) {
     };
 
     let objectExists = false;
-    let organizationObject = msg.body.data;
-    // let organizationObject = {
+    let activityObject = msg.body.data;
+
+    // let activityObject = {
     //   id: 1,
     //   company_id: 7542446,
     //   owner_id: {
@@ -180,13 +181,12 @@ async function processAction(msg: any, cfg: ComponentConfig) {
     //   owner_name: "Ioannis Lafiotis",
     //   cc_email: "cloudecosystemev-sandbox@pipedrivemail.com",
     // };
-
     if (recordUid && recordUid !== "" && recordUid !== "undefined") {
       // Conflict Management implementation
       const cfmResponse = await resolve(msg, cfg.token, "organization");
 
       if (cfmResponse) {
-        organizationObject = cfmResponse.resolvedConflict;
+        activityObject = cfmResponse.resolvedConflict;
         objectExists = cfmResponse.exists;
       }
     }
@@ -195,9 +195,9 @@ async function processAction(msg: any, cfg: ComponentConfig) {
 
     // Upsert the object depending on 'objectExists' property
     const reply = await upsertObject(
-      organizationObject,
+      activityObject,
       objectExists,
-      "organizations",
+      "activities",
       msg.body.meta,
       cfg
     );

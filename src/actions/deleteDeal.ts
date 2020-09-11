@@ -85,13 +85,16 @@ async function processAction(msg: any, cfg: ComponentConfig) {
   cfg.token = cfg.token.trim();
   cfg.company_domain = cfg.company_domain.trim();
   console.log(msg.body);
-  //let uid = 4;
+  //let uid = 5;
 
   const self = this;
   let client = new APIClient(cfg.company_domain, cfg.token);
 
   async function emitData() {
-    const reply = await client.deleteOrganization(uid);
+    const reply = await client.deleteDeal(uid);
+
+    console.log(`deleted the deal with id ${uid}`);
+    console.log(reply);
     self.emit("data", reply);
   }
 
@@ -102,6 +105,7 @@ async function processAction(msg: any, cfg: ComponentConfig) {
    */
   function emitError(e: {}) {
     console.log("Oops! Error occurred");
+    console.log(e);
     self.emit("error", e);
   }
 

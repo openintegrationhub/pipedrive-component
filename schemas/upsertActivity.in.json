@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "activity_id": {
+      "type": "number"
+    },
+    "activity_subject": {
+      "type": "string",
+      "required": true
+    },
+    "activity_done": {
+      "type": "string"
+    },
+    "activity_type": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

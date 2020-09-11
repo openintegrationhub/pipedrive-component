@@ -54,9 +54,9 @@ export async function createPerson(
     name: data.person_name,
     email: data.person_email,
     phone: data.person_phone,
-    org_id: data.org_id,
-    add_time: data.person_add_time,
-    owner_id: data.owner_id,
+    // org_id: data.org_id,
+    // add_time: data.person_add_time,
+    // owner_id: data.owner_id,
   } as Person;
 
   // Set visibility enum, API allows it to be omitted

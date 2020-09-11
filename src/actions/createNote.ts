@@ -51,9 +51,9 @@ export async function createNote(
   // Create Note
   // Form note object to be inserted.
   let note = {
-    org_id: data.org_id,
-    person_id: data.person_id,
-    deal_id: data.deal_id,
+    // org_id: data.org_id,
+    // person_id: data.person_id,
+    // deal_id: data.deal_id,
     content: data.note_content,
   } as Note;
   console.log("Creating note: " + JSON.stringify(note));

@@ -85,13 +85,13 @@ async function processAction(msg: any, cfg: ComponentConfig) {
   cfg.token = cfg.token.trim();
   cfg.company_domain = cfg.company_domain.trim();
   console.log(msg.body);
-  //let uid = 4;
+  // let uid = 4;
 
   const self = this;
   let client = new APIClient(cfg.company_domain, cfg.token);
 
   async function emitData() {
-    const reply = await client.deleteOrganization(uid);
+    const reply = await client.deleteActivity(uid);
     self.emit("data", reply);
   }
 

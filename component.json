@@ -132,6 +132,27 @@
         }
       }
     },
+
+    "deleteOrganization": {
+      "main": "./lib/actions/deleteOrganization.js",
+      "title": "Delete an organization in Pipedrive",
+      "metadata": {}
+    },
+    "deleteDeal": {
+      "main": "./lib/actions/deleteDeal.js",
+      "title": "Delete a deal in Pipedrive",
+      "metadata": {}
+    },
+    "deletePerson": {
+      "main": "./lib/actions/deletePerson.js",
+      "title": "Delete a person in Pipedrive",
+      "metadata": {}
+    },
+    "deleteActivity": {
+      "main": "./lib/actions/deleteActivity.js",
+      "title": "Delete an activity in Pipedrive",
+      "metadata": {}
+    },
     "upsertOrganization": {
       "main": "./lib/actions/upsertOrganization.js",
       "title": "Upsert an organization in Pipedrive",
@@ -140,11 +161,27 @@
       }
     },
     "upsertPerson": {
-      "title": "Upsert a person in Snazzy Contacts",
+      "title": "Upsert a person in Pipedrive",
       "main": "./lib/actions/upsertPerson.js",
       "metadata": {
         "in": "./lib/schemas/upsertPerson.in.json",
         "out": "./lib/schemas/upsertPerson.out.json"
+      }
+    },
+    "upsertDeal": {
+      "title": "Upsert a deal in Pipedrive",
+      "main": "./lib/actions/upsertDeal.js",
+      "metadata": {
+        "in": "./lib/schemas/upsertDeal.in.json",
+        "out": "./lib/schemas/upsertDeal.out.json"
+      }
+    },
+    "upsertActivity": {
+      "title": "Upsert an activity in Pipedrive",
+      "main": "./lib/actions/upsertActivity.js",
+      "metadata": {
+        "in": "./lib/schemas/upsertActivity.in.json",
+        "out": "./lib/schemas/upsertActivity.out.json"
       }
     }
   }

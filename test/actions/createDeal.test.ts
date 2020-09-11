@@ -86,16 +86,16 @@ describe("Create a deal and all subitems", () => {
       expect(res).toBeDefined();
     });
 
-    it("should create a deal", async () => {
-      expect.assertions(1);
+    // it("should create a deal", async () => {
+    //   expect.assertions(1);
 
-      // Act
-      let res = await createDeal.call(this, message, config, {});
+    //   // Act
+    //   let res = await createDeal.call(this, message, config, {});
 
-      console.log("createDeal() realResult: " + JSON.stringify(res));
-      // Assert
-      expect(res).toBeDefined();
-    });
+    //   console.log("createDeal() realResult: " + JSON.stringify(res));
+    //   // Assert
+    //   expect(res).toBeDefined();
+    // });
 
     it("should create a note", async () => {
       expect.assertions(1);
@@ -189,21 +189,21 @@ describe("Create a deal and all subitems", () => {
       expect(createContactAPI.isDone()).toBeTruthy();
     });
 
-    it("should mock creating a deal", async () => {
-      expect.assertions(1);
+    // it("should mock creating a deal", async () => {
+    //   expect.assertions(1);
 
-      // Mock
-      var createDealAPI = nock("https://aperture.pipedrive.com/v1")
-        .post("/deals")
-        .query({ api_token: config.token })
-        .reply(200, { success: true, data: deal } as APIResult);
+    //   // Mock
+    //   var createDealAPI = nock("https://aperture.pipedrive.com/v1")
+    //     .post("/deals")
+    //     .query({ api_token: config.token })
+    //     .reply(200, { success: true, data: deal } as APIResult);
 
-      // Act
-      await createDeal.call(this, message, config, {});
+    //   // Act
+    //   await createDeal.call(this, message, config, {});
 
-      // Assert
-      expect(createDealAPI.isDone()).toBeTruthy();
-    });
+    //   // Assert
+    //   expect(createDealAPI.isDone()).toBeTruthy();
+    // });
 
     it("should mock creating an activity", async () => {
       expect.assertions(1);

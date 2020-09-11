@@ -51,14 +51,23 @@ export async function createActivity(
 
   // Create activity TODO REMOVE hardcoded
   let activity = {
-    done: Done.NotDone,
     type: data.activity_type,
-    person_id: data.person_id,
+    // person_id: data.person_id,
     subject: data.activity_subject,
-    org_id: data.org_id,
-    user_id: data.owner_id,
-    deal_id: data.deal_id,
+    activity_done: data.activity_done,
+    // org_id: data.org_id,
+    // user_id: data.owner_id,
+    // deal_id: data.deal_id,
   } as Activity;
+
+  switch (data.activity_done) {
+    case 1:
+      activity.activity_done = Done.Done;
+      break;
+    case 2:
+      activity.activity_done = Done.NotDone;
+      break;
+  }
 
   console.log("Creating activity: " + JSON.stringify(activity));
   activity = await client.createActivity(activity);
@@ -66,6 +75,6 @@ export async function createActivity(
 
   // Return message
   let ret = <PipedriveMessage>data;
-  ret.activity_id = activity.id;
+  //ret.activity_id = activity.id;
   return ret;
 }

@@ -1,7 +1,7 @@
 //const request = require('request-promise').defaults({ simple: false, resolveWithFullResponse: true });
 
 import { ComponentConfig } from "../models/componentConfig";
-import { APIClient } from "../apiclient";
+//import { APIClient } from "../apiclient";
 
 //const BASE_URI = "https://api.pipedrive.com/v1/";
 export const request = require("request-promise").defaults({
@@ -82,8 +82,8 @@ function prepareObject(msg: any, type: string) {
   } else {
     newObject = {
       dto: {
-        name: msg.name ? msg.name : "",
-        logo: msg.logo ? msg.logo : "",
+        name: msg.name ? msg.name : "new message",
+        // logo: msg.logo ? msg.logo : "",
       },
     };
   }
@@ -104,16 +104,21 @@ function prepareObject(msg: any, type: string) {
  */
 async function upsertObject(
   msg: any,
-  token: string,
   objectExists: boolean,
   type: string,
-  meta: { recordUid: any },
+  // meta: { recordUid: number },
+  id: number,
   cfg: ComponentConfig
 ) {
+  // msg,
+  // organizationObject,
+  // objectExists,
+  // "organizations",
+  // msg.body.meta
   cfg.token = cfg.token.trim();
   cfg.company_domain = cfg.company_domain.trim();
 
-  let client = new APIClient(cfg.company_domain, cfg.token);
+  //let client = new APIClient(cfg.company_domain, cfg.token);
 
   if (!type) {
     return false;
@@ -127,16 +132,18 @@ async function upsertObject(
     // Update the object if it already exists
     method = "PUT";
     //uri = `${BASE_URI}/${type}/${meta.recordUid}`;
-    uri = `https://${cfg.company_domain}.pipedrive.com/v1/${type}/${meta.recordUid}`;
-    if (type === "organization") {
-      newObject = client.upsertOganization(newObject, meta.recordUid);
-    }
+    uri = `https://${cfg.company_domain}.pipedrive.com/v1/${type}/${id}?api_token=${cfg.token}`;
+    // if (type === "organization") {
+    //   newObject = client.upsertOganization(newObject, meta.recordUid);
+    // }
+
+    console.log(uri);
     newObject = prepareObject(msg, type);
     delete newObject.uid;
   } else {
     // Create the object if it does not exist
     method = "POST";
-    uri = `https://${cfg.company_domain}.pipedrive.com/v1/${type}`;
+    uri = `https://${cfg.company_domain}.pipedrive.com/v1/${type}?api_token=${cfg.token}`;
     newObject = msg;
     delete newObject.uid;
     delete newObject.categories;
@@ -149,7 +156,7 @@ async function upsertObject(
       uri,
       json: true,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cfg.token}`,
       },
       body: newObject,
     };

@@ -1,0 +1,52 @@
+{
+  "type": "object",
+  "properties": {
+    "uid": {
+      "type": "string",
+      "required": false,
+      "title": "Uid",
+      "note": "Person's uid",
+      "placeholder": "25mop1jxq2ss3x"
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "title": "Organization's name",
+      "note": "Organization's name",
+      "placeholder": "Company Ltd."
+    },
+
+    "email": {
+      "type": "string",
+      "required": false,
+      "title": "Email",
+      "note": "Person's email",
+      "placeholder": "johndoe@workmail.com"
+    },
+    "title": {
+      "type": "string",
+      "required": false,
+      "title": "Title",
+      "note": "Person's title",
+      "placeholder": "Prof."
+    },
+    "person_id": {
+      "type": "string"
+    },
+    "person_name": {
+      "type": "string"
+    },
+    "person_email": {
+      "type": "string"
+    },
+    "person_phone": {
+      "type": "string"
+    },
+    "person_visible_to": {
+      "type": "string"
+    },
+    "person_add_time": {
+      "type": "string"
+    }
+  }
+}

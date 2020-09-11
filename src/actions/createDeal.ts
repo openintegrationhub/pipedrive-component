@@ -6,6 +6,7 @@ import { PipedriveMessage } from "../models/pipedriveMessage";
 import { ComponentConfig } from "../models/componentConfig";
 const Q = require("q");
 import { APIClient } from "../apiclient";
+const { newMessage } = require("../helpers");
 // import { messages } from "ferryman-node";
 /**
  * createDeal creates a new deal.
@@ -52,13 +53,12 @@ export async function processAction(
     let deal = {
       title: data.deal_title,
       currency: data.deal_currency,
-      person_id: data.person_id,
-      org_id: data.org_id,
-      user_id: data.owner_id,
-      add_time: data.deal_add_time,
+
       lost_reason: data.deal_lost_reason,
       stage_id: data.deal_stage_id,
       value: data.deal_value,
+      visible_to: data.deal_visible_to,
+      status: data.deal_status,
     } as Deal;
 
     // Set visibility enum, API allows it to be omitted
@@ -81,13 +81,27 @@ export async function processAction(
         deal.status = Status.Lost;
         break;
     }
+    // let deal = {
+    //   title: "data.deal_title",
+    //   currency: "USD",
+    //   // person_id: data.person_id,
+    //   // org_id: data.org_id,
+    //   // user_id: data.owner_id,
+    //   // add_time: data.deal_add_time,
+    //   lost_reason: data.deal_lost_reason,
+    //   // stage_id: data.deal_stage_id,
+    //   value: 5,
+    //   status: "Open",
+    //   visible_to: "OwnerAndFollowers",
+    // };
+
     console.log("Creating deal: " + JSON.stringify(deal));
     deal = await client.createDeal(deal);
     console.log("Created deal: " + JSON.stringify(deal));
 
     // Return message
     let ret = <PipedriveMessage>data;
-    ret.deal_id = deal.id;
+    // ret.deal_id = deal.id;
 
     self.emit("data", newMessage(ret));
     // return ret;
