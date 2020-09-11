@@ -164,24 +164,21 @@
       "title": "Upsert a person in Pipedrive",
       "main": "./lib/actions/upsertPerson.js",
       "metadata": {
-        "in": "./lib/schemas/upsertPerson.in.json",
-        "out": "./lib/schemas/upsertPerson.out.json"
+        "in": "./lib/schemas/upsertPerson.in.json"
       }
     },
     "upsertDeal": {
       "title": "Upsert a deal in Pipedrive",
       "main": "./lib/actions/upsertDeal.js",
       "metadata": {
-        "in": "./lib/schemas/upsertDeal.in.json",
-        "out": "./lib/schemas/upsertDeal.out.json"
+        "in": "./lib/schemas/upsertDeal.in.json"
       }
     },
     "upsertActivity": {
       "title": "Upsert an activity in Pipedrive",
       "main": "./lib/actions/upsertActivity.js",
       "metadata": {
-        "in": "./lib/schemas/upsertActivity.in.json",
-        "out": "./lib/schemas/upsertActivity.out.json"
+        "in": "./lib/schemas/upsertActivity.in.json"
       }
     }
   }
