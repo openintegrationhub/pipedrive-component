@@ -7,10 +7,10 @@ import { PipedriveMessage } from "../models/pipedriveMessage";
 
 import { APIClient } from "../apiclient";
 
-exports.process = createOrganisation;
+exports.process = createOrganization;
 
 /**
- * createOrganisation creates a new org.
+ * createOrganization creates a new org.
  *
  * @param data incoming messages which is empty for triggers
  * @param cfg object to retrieve triggers configuration values
@@ -18,8 +18,8 @@ exports.process = createOrganisation;
  *
  * @returns promise resolving a message to be emitted to the platform
  */
-export async function createOrganisation(
-  msg: elasticionode.Message,
+export async function createOrganization(
+  msg: any,
   cfg: ComponentConfig,
   snapshot: any
 ): Promise<PipedriveMessage> {
@@ -52,11 +52,9 @@ export async function createOrganisation(
   // Create Organization, private by default
   let organization = {
     name: data.org_name,
-    add_time: data.org_add_time,
-    owner_id: data.owner_id,
   } as Organization;
 
-  // Set visibility enum, API allows it to be omitted
+  //Set visibility enum, API allows it to be omitted
   switch (data.org_visible_to) {
     case 1:
       organization.visible_to = Visibility.OwnerAndFollowers;
@@ -66,11 +64,22 @@ export async function createOrganisation(
       break;
   }
   console.log("Creating organization: " + JSON.stringify(organization));
+  console.log(msg.body);
+
+  // organization = {
+  // id: 5,
+  // name: "pipedrive newas deal",
+  // visible_to: Visibility.OwnerAndFollowers,
+  // add_time: `${new Date()}`,
+  // owner_id: data.owner_id,
+  // };
+
   organization = await client.createOrganization(organization);
+
   console.log("Created organization: " + JSON.stringify(organization));
   // assign returned id to org_id
   let ret = <PipedriveMessage>data;
-  ret.org_id = organization.id;
+  // ret.org_id = organization.id;
   // Return message
 
   return ret;

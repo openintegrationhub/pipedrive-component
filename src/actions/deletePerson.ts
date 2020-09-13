@@ -91,7 +91,7 @@ async function processAction(msg: any, cfg: ComponentConfig) {
   let client = new APIClient(cfg.company_domain, cfg.token);
 
   async function emitData() {
-    const reply = await client.deleteOrganization(uid);
+    const reply = await client.deletePerson(uid);
     self.emit("data", reply);
   }
 

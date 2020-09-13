@@ -42,11 +42,20 @@ export class APIClient {
   async createActivity(activity: Activity) {
     return this.create<Activity>(activity, "activities");
   }
-  async upsertOganization(organization: Organization, uid: string) {
+  async upsertOganization(organization: Organization, uid: number) {
     return this.upsert<Organization>(organization, `organizations/${uid}`);
   }
-  async deleteOrganization(organization: Organization, uid: string) {
-    return this.delete<Organization>(organization, `organizations/${uid}`);
+  async deleteOrganization(uid: number) {
+    return this.delete<Organization>(`organizations/${uid}`);
+  }
+  async deleteDeal(uid: number) {
+    return this.delete<Organization>(`deals/${uid}`);
+  }
+  async deletePerson(uid: number) {
+    return this.delete<Organization>(`persons/${uid}`);
+  }
+  async deleteActivity(uid: number) {
+    return this.delete<Organization>(`activities/${uid}`);
   }
   async getOrganizations() {
     return this.getData<Organization[]>();
@@ -72,8 +81,8 @@ export class APIClient {
     }
     return <T>result.data;
   }
-  private async delete<T>(payload: T, endpointName: string): Promise<T> {
-    const response = await this.http.delete("/" + endpointName, payload);
+  private async delete<T>(endpointName: string): Promise<T> {
+    const response = await this.http.delete("/" + endpointName);
     const result = <APIResult>response.data;
     if (!result.success) {
       throw new Error("could not entity for endpoint " + endpointName);

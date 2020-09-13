@@ -31,12 +31,12 @@ import { ComponentConfig } from "../models/componentConfig";
  */
 async function processTrigger(
   msg: any,
+
   cfg: ComponentConfig,
   snapshot: { lastUpdated: Date }
 ) {
   // Authenticate and get the token from Pipedrive
   const { applicationUid, domainId, schema, recordUid } = cfg;
-
   console.log(msg);
 
   // const token = cfg.API_KEY;
@@ -50,9 +50,6 @@ async function processTrigger(
     /** Create an OIH meta object which is required
      * to make the Hub and Spoke architecture work properly
      */
-
-    console.log("CONFIG: ");
-    console.log(cfg);
     const oihMeta = {
       applicationUid:
         applicationUid !== undefined && applicationUid !== null
@@ -65,12 +62,12 @@ async function processTrigger(
         recordUid !== undefined && recordUid !== null ? recordUid : undefined,
     };
 
-    const organizations = await getEntries(snapshot, "organizations", cfg);
+    const deals = await getEntries(snapshot, "deals", cfg);
 
-    console.log(`Found ${organizations.result.length} new records.`);
+    console.log(`Found ${deals.result.length} new records.`);
 
-    if (organizations.result.length > 0) {
-      organizations.result.forEach((elem: any) => {
+    if (deals.result.length > 0) {
+      deals.result.forEach((elem: any) => {
         const newElement = { meta: {}, data: elem };
         // Attach object uid to oihMeta object
         oihMeta.recordUid = elem.uid;
@@ -81,8 +78,7 @@ async function processTrigger(
         self.emit("data", newMessage(newElement));
       });
       // Get the lastUpdate property from the last object and attach it to snapshot
-      snapshot.lastUpdated =
-        organizations.result[organizations.result.length - 1].lastUpdate;
+      snapshot.lastUpdated = deals.result[deals.result.length - 1].lastUpdate;
       console.log(`New snapshot: ${snapshot.lastUpdated}`);
       self.emit("snapshot", snapshot);
     } else {

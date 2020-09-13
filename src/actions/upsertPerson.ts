@@ -122,7 +122,7 @@ async function processAction(msg: any, cfg: ComponentConfig) {
     };
 
     let objectExists = false;
-    let organizationObject = msg.body.data;
+    let personObject = msg.body.data;
     // let organizationObject = {
     //   id: 1,
     //   company_id: 7542446,
@@ -186,18 +186,19 @@ async function processAction(msg: any, cfg: ComponentConfig) {
       const cfmResponse = await resolve(msg, cfg.token, "organization");
 
       if (cfmResponse) {
-        organizationObject = cfmResponse.resolvedConflict;
+        personObject = cfmResponse.resolvedConflict;
         objectExists = cfmResponse.exists;
       }
     }
+
     // msg.body.meta = 1;
     // objectExists = true;
 
     // Upsert the object depending on 'objectExists' property
     const reply = await upsertObject(
-      organizationObject,
+      personObject,
       objectExists,
-      "organizations",
+      "persons",
       msg.body.meta,
       cfg
     );

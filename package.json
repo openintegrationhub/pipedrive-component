@@ -38,12 +38,11 @@
     ]
   },
   "dependencies": {
-    "@openintegrationhub/ferryman": "^1.0.1",
-    "axios": "^0.16.2",
-    "elasticio-node": "0.0.8",
-    "elasticio-sailor-nodejs": "^2.1.3",
+    "@openintegrationhub/ferryman": "^1.1.3",
+    "axios": "^0.20.0",
     "lodash": "^4.17.4",
-    "typescript": "^2.4.0"
+    "request": "^2.88.2",
+    "typescript": "^4.0.2"
   },
   "devDependencies": {
     "@types/fs-extra": "^4.0.0",
@@ -55,6 +54,11 @@
     "jest": "^20.0.4",
     "nock": "^9.0.13",
     "tslint": "^5.4.3",
-    "tslint-language-service": "^0.9.6"
-  }
+    "tslint-language-service": "0.9.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:openintegrationhub/pipedrive-component.git"
+  },
+  "license": "Apache-2.0 © elastic.io GmbH"
 }

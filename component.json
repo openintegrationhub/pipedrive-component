@@ -1,6 +1,6 @@
 {
   "title": "Pipedrive",
-  "description": "elastic.io integration component for pipedrive",
+  "description": "OIH integration component for pipedrive",
   "docsUrl": "https://www.mvise.de",
   "credentials": {
     "fields": {
@@ -26,6 +26,33 @@
       "main": "./lib/triggers/getOrganizationsPolling.js",
       "metadata": {
         "out": "./lib/schemas/getOrganizations.out.json"
+      }
+    },
+    "getPersonsPolling": {
+      "title": "Fetch new and updated persons(getPersons - Polling)",
+      "description": "Get Pipedrive persons which have recently been modified or created",
+      "type": "polling",
+      "main": "./lib/triggers/getPersonsPolling.js",
+      "metadata": {
+        "out": "./lib/schemas/getPersons.out.json"
+      }
+    },
+    "getActivitiesPolling": {
+      "title": "Fetch new and updated organizations(getActivities- Polling)",
+      "description": "Get Pipedrive activities which have recently been modified or created",
+      "type": "polling",
+      "main": "./lib/triggers/getActivitiesPolling.js",
+      "metadata": {
+        "out": "./lib/schemas/getActivities.out.json"
+      }
+    },
+    "getDealsPolling": {
+      "title": "Fetch new and updated deals(getDeals- Polling)",
+      "description": "Get Pipedrive deals which have recently been modified or created",
+      "type": "polling",
+      "main": "./lib/triggers/getDealsPolling.js",
+      "metadata": {
+        "out": "./lib/schemas/getDeals.out.json"
       }
     }
   },
@@ -75,11 +102,11 @@
         }
       }
     },
-    "createOrganisation": {
-      "title": "Create a new organisation in pipedrive",
-      "main": "./lib/actions/createOrganisation.js",
+    "createOrganization": {
+      "title": "Create a new organization in pipedrive",
+      "main": "./lib/actions/createOrganization.js",
       "metadata": {
-        "in": "./schemas/createOrganisation.in.json",
+        "in": "./schemas/createOrganization.in.json",
         "out": "./schemas/common.out.json"
       },
       "fields": {
@@ -105,6 +132,27 @@
         }
       }
     },
+
+    "deleteOrganization": {
+      "main": "./lib/actions/deleteOrganization.js",
+      "title": "Delete an organization in Pipedrive",
+      "metadata": {}
+    },
+    "deleteDeal": {
+      "main": "./lib/actions/deleteDeal.js",
+      "title": "Delete a deal in Pipedrive",
+      "metadata": {}
+    },
+    "deletePerson": {
+      "main": "./lib/actions/deletePerson.js",
+      "title": "Delete a person in Pipedrive",
+      "metadata": {}
+    },
+    "deleteActivity": {
+      "main": "./lib/actions/deleteActivity.js",
+      "title": "Delete an activity in Pipedrive",
+      "metadata": {}
+    },
     "upsertOrganization": {
       "main": "./lib/actions/upsertOrganization.js",
       "title": "Upsert an organization in Pipedrive",
@@ -113,11 +161,24 @@
       }
     },
     "upsertPerson": {
-      "title": "Upsert a person in Snazzy Contacts",
+      "title": "Upsert a person in Pipedrive",
       "main": "./lib/actions/upsertPerson.js",
       "metadata": {
-        "in": "./lib/schemas/upsertPerson.in.json",
-        "out": "./lib/schemas/upsertPerson.out.json"
+        "in": "./lib/schemas/upsertPerson.in.json"
+      }
+    },
+    "upsertDeal": {
+      "title": "Upsert a deal in Pipedrive",
+      "main": "./lib/actions/upsertDeal.js",
+      "metadata": {
+        "in": "./lib/schemas/upsertDeal.in.json"
+      }
+    },
+    "upsertActivity": {
+      "title": "Upsert an activity in Pipedrive",
+      "main": "./lib/actions/upsertActivity.js",
+      "metadata": {
+        "in": "./lib/schemas/upsertActivity.in.json"
       }
     }
   }

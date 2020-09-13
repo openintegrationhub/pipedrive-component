@@ -122,11 +122,11 @@ async function processAction(msg: any, cfg: ComponentConfig) {
     };
 
     let objectExists = false;
-    let organizationObject = msg.body.data;
+    let dealObject = msg.body.data;
+
     // let organizationObject = {
-    //   id: 1,
-    //   company_id: 7542446,
-    //   owner_id: {
+    //   id: 2,
+    //   creator_user_id: {
     //     id: 11550282,
     //     name: "Ioannis Lafiotis",
     //     email: "ioannis.lafiotis@cloudecosystem.org",
@@ -135,69 +135,95 @@ async function processAction(msg: any, cfg: ComponentConfig) {
     //     active_flag: true,
     //     value: 11550282,
     //   },
-    //   name: "jannisCorp",
-    //   open_deals_count: 0,
-    //   related_open_deals_count: 0,
-    //   closed_deals_count: 0,
-    //   related_closed_deals_count: 0,
-    //   email_messages_count: 0,
-    //   people_count: 1,
-    //   activities_count: 0,
-    //   done_activities_count: 0,
-    //   undone_activities_count: 0,
+    //   user_id: {
+    //     id: 11550282,
+    //     name: "Ioannis Lafiotis",
+    //     email: "ioannis.lafiotis@cloudecosystem.org",
+    //     has_pic: 0,
+    //     pic_hash: null,
+    //     active_flag: true,
+    //     value: 11550282,
+    //   },
+    //   person_id: null,
+    //   org_id: {
+    //     name: "pipe",
+    //     people_count: 0,
+    //     owner_id: 11550282,
+    //     address: null,
+    //     active_flag: true,
+    //     cc_email: "cloudecosystemev-sandbox@pipedrivemail.com",
+    //     value: 3,
+    //   },
+    //   stage_id: 1,
+    //   title: "pipedrive deal",
+    //   value: 0,
+    //   currency: "USD",
+    //   add_time: "2020-09-09 14:32:57",
+    //   update_time: "2020-09-10 08:13:38",
+    //   stage_change_time: null,
+    //   active: true,
+    //   deleted: false,
+    //   status: "open",
+    //   probability: null,
+    //   next_activity_date: "2020-09-10",
+    //   next_activity_time: "10:30:00",
+    //   next_activity_id: 1,
+    //   last_activity_id: null,
+    //   last_activity_date: null,
+    //   lost_reason: null,
+    //   visible_to: "3",
+    //   close_time: null,
+    //   pipeline_id: 1,
+    //   won_time: null,
+    //   first_won_time: null,
+    //   lost_time: null,
+    //   products_count: 0,
     //   files_count: 0,
     //   notes_count: 0,
     //   followers_count: 1,
-    //   won_deals_count: 0,
-    //   related_won_deals_count: 0,
-    //   lost_deals_count: 0,
-    //   related_lost_deals_count: 0,
-    //   active_flag: true,
-    //   category_id: null,
-    //   picture_id: null,
-    //   country_code: null,
-    //   first_char: "j",
-    //   update_time: "2020-09-11 08:47:34",
-    //   add_time: "2020-09-07 15:15:19",
-    //   visible_to: "3",
-    //   next_activity_date: null,
-    //   next_activity_time: null,
-    //   next_activity_id: null,
-    //   last_activity_id: null,
-    //   last_activity_date: null,
+    //   email_messages_count: 0,
+    //   activities_count: 1,
+    //   done_activities_count: 0,
+    //   undone_activities_count: 1,
+    //   participants_count: 0,
+    //   expected_close_date: null,
+    //   last_incoming_mail_time: null,
+    //   last_outgoing_mail_time: null,
     //   label: null,
-    //   address: null,
-    //   address_subpremise: null,
-    //   address_street_number: null,
-    //   address_route: null,
-    //   address_sublocality: null,
-    //   address_locality: null,
-    //   address_admin_area_level_1: null,
-    //   address_admin_area_level_2: null,
-    //   address_country: null,
-    //   address_postal_code: null,
-    //   address_formatted_address: null,
+    //   stage_order_nr: 0,
+    //   person_name: null,
+    //   org_name: "pipe",
+    //   next_activity_subject: "meeting with owner",
+    //   next_activity_type: "call",
+    //   next_activity_duration: "00:30:00",
+    //   next_activity_note: null,
+    //   formatted_value: "$0",
+    //   weighted_value: 0,
+    //   formatted_weighted_value: "$0",
+    //   weighted_value_currency: "USD",
+    //   rotten_time: null,
     //   owner_name: "Ioannis Lafiotis",
-    //   cc_email: "cloudecosystemev-sandbox@pipedrivemail.com",
+    //   cc_email: "cloudecosystemev-sandbox+deal2@pipedrivemail.com",
+    //   org_hidden: false,
+    //   person_hidden: false,
     // };
-
     if (recordUid && recordUid !== "" && recordUid !== "undefined") {
       // Conflict Management implementation
       const cfmResponse = await resolve(msg, cfg.token, "organization");
 
       if (cfmResponse) {
-        organizationObject = cfmResponse.resolvedConflict;
+        dealObject = cfmResponse.resolvedConflict;
         objectExists = cfmResponse.exists;
       }
     }
-    // msg.body.meta = 1;
+    // msg.body.meta = 2;
     // objectExists = true;
 
     // Upsert the object depending on 'objectExists' property
     const reply = await upsertObject(
-      organizationObject,
+      dealObject,
       objectExists,
-      "organizations",
+      "deals",
       msg.body.meta,
       cfg
     );

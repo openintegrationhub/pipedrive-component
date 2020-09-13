@@ -3,7 +3,7 @@ export interface ComponentConfig {
   company_domain: string;
   deal_note: string;
   owner_id: string;
-  recordUid: string;
+  recordUid: number;
   applicationUid: string;
   domainId: string;
   schema: {};
