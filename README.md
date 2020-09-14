@@ -22,8 +22,14 @@ You need to configure your company domain and access token to authenticate the p
 - Create person (`createPerson.ts`)
 - Create organization(`createOrganization.ts`)
 - Upsert organization(`upsertOrganization.ts`)
+- Upsert Deal(`upsertDeal.ts`)
+- Upsert Person(`upsertPerson.ts`)
+- Upsert Activity(`upsertActivity.ts`)
 - Create person (`createPerson.ts`)
 - Delete organization(`deleteOrganization.ts`)
+- Delete Person(`deletePerson.ts`)
+- Delete Deal(`deleteDeal.ts`)
+- Delete Activity(`deleteActivity.ts`)
 - Create activity (`cretaeActivity.ts`)
 - Create organization(`upsertOrganization.ts`)
 
@@ -55,6 +61,18 @@ Upsert organization action (upsertOrganization.ts) updates an existing organizat
 
 Delete organization action (deleteOrganization.ts) deletes an existing organization if it already exists.
 
+### Delete Person
+
+Delete Person action (deletePerson.ts) deletes an existing Person if it already exists.
+
+### Delete Activity
+
+Delete Activity action (deleteActivity.ts) deletes an existing Activity if it already exists.
+
+### Delete Deal
+
+Delete Deal action (deleteDeal.ts) deletes an existing Deal if it already exists.
+
 # Triggers
 
 - Get persons - polling (`getPersonsPolling.js`)
@@ -85,7 +103,9 @@ Issue connecting the connector with the webhook site to test the triggers...
 
 ## TODOs
 
-- Write more actions / triggers.
+- Work on the webhooks part
+- Test it with pipedrive-transformers and other component
+- Code reviews
 
 ## License
 
