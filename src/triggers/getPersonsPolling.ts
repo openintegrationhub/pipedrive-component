@@ -21,6 +21,7 @@ const { newMessage } = require("../helpers");
 const { getEntries } = require("../utils/helpers");
 ///const { getToken } = require('./../utils/authentication');
 import { ComponentConfig } from "../models/componentConfig";
+//import { sample } from "lodash";
 // import { messages } from "ferryman-node";
 
 /**
@@ -33,7 +34,7 @@ async function processTrigger(
   msg: any,
 
   cfg: ComponentConfig,
-  snapshot: { lastUpdated: Date }
+  snapshot: any
 ) {
   // Authenticate and get the token from Pipedrive
   const { applicationUid, domainId, schema, recordUid } = cfg;
@@ -44,7 +45,10 @@ async function processTrigger(
   const self = this;
 
   // Set the snapshot if it is not provided
-  snapshot.lastUpdated = snapshot.lastUpdated || new Date(0).getTime();
+  snapshot.lastUpdated = snapshot.lastUpdated || new Date().getTime();
+
+  console.log("this is the snapshot i will pass", snapshot);
+  console.log("this is the snapshot i will pass", snapshot.lastUpdated);
 
   async function emitData() {
     /** Create an OIH meta object which is required
@@ -62,10 +66,13 @@ async function processTrigger(
         recordUid !== undefined && recordUid !== null ? recordUid : undefined,
     };
 
+    console.log(oihMeta);
+
     const persons = await getEntries(snapshot, "persons", cfg);
+    console.log("this is the snapshot i will pass", snapshot);
 
     console.log(`Found ${persons.result.length} new records.`);
-
+    console.log("Passed");
     if (persons.result.length > 0) {
       persons.result.forEach((elem: any) => {
         const newElement = { meta: {}, data: elem };
@@ -74,12 +81,17 @@ async function processTrigger(
         delete elem.uid;
         newElement.meta = oihMeta;
         newElement.data = elem;
+
+        //console.log(newElement);
+        console.log("this is oihmeta", oihMeta);
+        console.log("It passed this...");
+
         // Emit the object with meta and data properties
         self.emit("data", newMessage(newElement));
       });
       // Get the lastUpdate property from the last object and attach it to snapshot
       snapshot.lastUpdated =
-        persons.result[persons.result.length - 1].lastUpdate;
+        persons.result[persons.result.length - 1].update_time;
       console.log(`New snapshot: ${snapshot.lastUpdated}`);
       self.emit("snapshot", snapshot);
     } else {

@@ -17,33 +17,33 @@ export const request = require("request-promise").defaults({
  * @return {Object} - Array of person objects containing data and meta
  */
 
-async function fetchAll(options: {}, snapshot: { lastUpdated: Date }) {
+async function fetchAll(options: {}, snapshot: any) {
   try {
     const result: any[] = [];
 
     const entries = await request.get(options);
 
     console.log("RESPONSE");
-    console.log(entries.body.data);
     console.log(entries.body.data[0]);
-
+    console.log(snapshot);
     if (
-      Object.entries(entries.bodydata).length === 0 &&
+      Object.entries(entries.body.data).length === 0 &&
       entries.body.data.constructor === Object
     ) {
       return false;
     }
-    entries.body.data.filter((person: { lastUpdate: Date }) => {
-      // Push only this objects which were updated after last function call
-      if (person.lastUpdate > snapshot.lastUpdated) {
+    entries.body.data.forEach((person: any) => {
+      //Push only this objects which were updated after last function call
+      if (person.update_time > snapshot.lastUpdated) {
         return result.push(person);
       }
+      result.push(person);
       return person;
     });
 
     // Sort the objects by lastUpdate
     result.sort(
-      (a, b) => parseInt(a.lastUpdate, 10) - parseInt(b.lastUpdate, 10)
+      (a, b) => parseInt(a.update_time, 10) - parseInt(b.update_time, 10)
     );
     return {
       result,
@@ -177,11 +177,7 @@ async function upsertObject(
  * @param count - amount of objects
  * @return {Object} - Array of person objects containing data and meta
  */
-async function getEntries(
-  snapshot: { lastUpdated: Date },
-  type: string,
-  cfg: ComponentConfig
-) {
+async function getEntries(snapshot: any, type: string, cfg: ComponentConfig) {
   cfg.token = cfg.token.trim();
   cfg.company_domain = cfg.company_domain.trim();
 
@@ -197,8 +193,12 @@ async function getEntries(
         Authorization: `Bearer ${cfg.token}`,
       },
     };
+    console.log(requestOptions);
+    console.log(snapshot);
+
     let entries: any;
     entries = await fetchAll(requestOptions, snapshot);
+    console.log(entries);
 
     if (!entries.result || !Array.isArray(entries.result)) {
       return "Expected records array.";
