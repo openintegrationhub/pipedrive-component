@@ -183,7 +183,7 @@ async function processAction(msg: any, cfg: ComponentConfig) {
 
     if (recordUid && recordUid !== "" && recordUid !== "undefined") {
       // Conflict Management implementation
-      const cfmResponse = await resolve(msg, cfg.token, "organization");
+      const cfmResponse = await resolve(msg, cfg.token, "person");
 
       if (cfmResponse) {
         personObject = cfmResponse.resolvedConflict;

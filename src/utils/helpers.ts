@@ -65,7 +65,7 @@ function prepareObject(msg: any, type: string) {
   let newObject: {
     dto: {};
   };
-  if (type === "person") {
+  if (type === "persons") {
     newObject = {
       dto: {
         firstName: msg.firstName ? msg.firstName : "",

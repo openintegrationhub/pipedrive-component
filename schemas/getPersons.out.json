@@ -169,6 +169,9 @@
           "categories": {
             "type": "array",
             "items": {}
+          },
+          "person_phone": {
+            "type": "string"
           }
         }
       }
