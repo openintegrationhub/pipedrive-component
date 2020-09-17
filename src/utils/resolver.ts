@@ -6,25 +6,25 @@ import { ComponentConfig } from "../models/componentConfig";
 //   simple: false,
 //   resolveWithFullResponse: true,
 // });
-const CFM = require("@wice-devs/cfm");
+// const CFM = require("@wice-devs/cfm");
 const request = require("./helpers");
-// CFM Configuration
-const cfm = new CFM();
-const globalRules = {
-  skipDuplicateEntry: "myRule1",
-};
+// // CFM Configuration
+// const cfm = new CFM();
+// const globalRules = {
+//   skipDuplicateEntry: "myRule1",
+// };
 
 // Configure rules
-const rules = {
-  rejectEmpty: ["title", "birthday", "middleName", "salutation"],
-  uniqArray: ["contactData.[]", "addresses.[]"],
-  copyNew: ["firstName", "lastName", "jobTitle", "name", "logo"],
-  onlyOverwriteEmpty: ["gender", "nickname"],
-};
+// const rules = {
+//   rejectEmpty: ["title", "birthday", "middleName", "salutation"],
+//   uniqArray: ["contactData.[]", "addresses.[]"],
+//   copyNew: ["firstName", "lastName", "jobTitle", "name", "logo"],
+//   onlyOverwriteEmpty: ["gender", "nickname"],
+// };
 
-// Apply rules
-cfm.setGlobalRules(globalRules);
-cfm.setRules(rules);
+// // Apply rules
+// cfm.setGlobalRules(globalRules);
+// cfm.setRules(rules);
 
 //const BASE_URI = `https://api.pipedrive.com/v1`;
 
@@ -81,13 +81,13 @@ async function checkForExistingObject(
  * @param {Object} appObject - target object
  * @return {Object} - the resolved objed
  */
-function resolveConflict(
-  incomingObject: { body: { data: any } },
-  appObject: {}
-) {
-  const resolved = cfm.resolve(incomingObject.body.data, appObject);
-  return resolved;
-}
+// function resolveConflict(
+//   incomingObject: { body: { data: any } },
+//   appObject: {}
+// ) {
+//   const resolved = cfm.resolve(incomingObject.body.data, appObject);
+//   return resolved;
+// }
 
 /**
  * @desc Global resolve function
@@ -107,19 +107,19 @@ async function resolve(
 
   if (appObject) {
     const exists = true;
-    const resolvedConflict = resolveConflict(msg, appObject);
+    //const resolvedConflict = resolveConflict(msg, appObject);
 
     // In case of identical objects just return
-    if (
-      (Object.entries(resolvedConflict).length === 0 &&
-        resolvedConflict.constructor === Object) ||
-      resolvedConflict === {}
-    ) {
-      return;
-    }
+    // if (
+    //   (Object.entries(resolvedConflict).length === 0 &&
+    //     resolvedConflict.constructor === Object) ||
+    //   resolvedConflict === {}
+    // ) {
+    //   return;
+    // }
 
     return {
-      resolvedConflict,
+      //    resolvedConflict,
       exists,
     };
   }
@@ -129,5 +129,5 @@ async function resolve(
 module.exports = {
   resolve,
   checkForExistingObject,
-  resolveConflict,
+  // resolveConflict,
 };
