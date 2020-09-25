@@ -68,17 +68,20 @@ function prepareObject(msg: any, type: string) {
   if (type === "persons") {
     newObject = {
       dto: {
-        firstName: msg.firstName ? msg.firstName : "",
-        lastName: msg.lastName ? msg.lastName : "",
-        middleName: msg.middleName ? msg.middleName : "",
-        salutation: msg.salutation ? msg.salutation : "",
-        title: msg.title ? msg.title : "",
-        birthday: msg.birthday ? msg.birthday : "",
-        nickname: msg.nickname ? msg.nickname : "",
-        jobTitle: msg.jobTitle ? msg.jobTitle : "",
-        gender: msg.gender ? msg.gender : "",
+        name: msg.name ? msg.name : "",
+        // first_name: msg.first_name ? msg.first_name : "",
+        // last_name: msg.last_name ? msg.last_name : "",
+        //middleName: msg.middleName ? msg.middleName : "",
+        // salutation: msg.salutation ? msg.salutation : "",
+        // title: msg.title ? msg.title : "",
+        // birthday: msg.birthday ? msg.birthday : "",
+        // nickname: msg.nickname ? msg.nickname : "",
+        // jobTitle: msg.jobTitle ? msg.jobTitle : "",
+        // gender: msg.gender ? msg.gender : "",
       },
     };
+    console.log("this is the new object!!", newObject);
+    console.log("this is the new object.dto!!", newObject.dto);
   } else {
     newObject = {
       dto: {

@@ -78,7 +78,7 @@
 
 const Q = require("q");
 const { newMessage } = require("../helpers");
-const { resolve } = require("./../utils/resolver");
+//const { resolve } = require("./../utils/resolver");
 const { upsertObject } = require("./../utils/helpers");
 //  import { APIClient } from "../apiclient";
 import { ComponentConfig } from "../models/componentConfig";
@@ -181,15 +181,15 @@ async function processAction(msg: any, cfg: ComponentConfig) {
     //   cc_email: "cloudecosystemev-sandbox@pipedrivemail.com",
     // };
 
-    if (recordUid && recordUid !== "" && recordUid !== "undefined") {
-      // Conflict Management implementation
-      const cfmResponse = await resolve(msg, cfg.token, "person");
+    // if (recordUid && recordUid !== "" && recordUid !== "undefined") {
+    // Conflict Management implementation
+    //   const cfmResponse = await resolve(msg, cfg.token, "person");
 
-      if (cfmResponse) {
-        personObject = cfmResponse.resolvedConflict;
-        objectExists = cfmResponse.exists;
-      }
-    }
+    //   if (cfmResponse) {
+    //     personObject = cfmResponse.resolvedConflict;
+    //     objectExists = cfmResponse.exists;
+    //   }
+    // }
 
     // msg.body.meta = 1;
     // objectExists = true;
