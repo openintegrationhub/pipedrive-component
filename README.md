@@ -1,10 +1,7 @@
-# pipedrive-component [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# pipedrive-component 
 
-> elastic.io integration component for Pipedriver
+> Pipedrive component for Open Integration Hub. Based on elastic.io a [component](https://github.com/elasticio/pipedrive-component)
 
-# pipedrive-component
-
-pipedrive Component component for the [elastic.io platform](http://www.elastic.io &#34;elastic.io platform&#34;)
 
 ## Before you Begin
 
@@ -110,8 +107,3 @@ Issue connecting the connector with the webhook site to test the triggers...
 ## License
 
 Apache-2.0 © [elastic.io GmbH](https://www.elastic.io)
-
-[travis-image]: https://travis-ci.org/elasticio/pipedrive-component.svg?branch=master
-[travis-url]: https://travis-ci.org/elasticio/pipedrive-component
-[daviddm-image]: https://david-dm.org/elasticio/pipedrive-component.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/elasticio/pipedrive-component

@@ -45,7 +45,7 @@ async function processTrigger(
   const self = this;
 
   // Set the snapshot if it is not provided
-  snapshot.lastUpdated = snapshot.lastUpdated || new Date().getTime();
+  snapshot.lastUpdated = snapshot.lastUpdated || new Date(0).getTime();
 
   console.log("this is the snapshot i will pass", snapshot);
   console.log("this is the snapshot i will pass", snapshot.lastUpdated);
