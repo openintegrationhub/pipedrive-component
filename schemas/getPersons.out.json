@@ -15,6 +15,10 @@
       "note": "Person's name",
       "placeholder": "Company Ltd."
     },
+    "update_time": {
+      "type": "string",
+      "required": true
+    },
     "addresses": {
       "type": "array",
       "required": true,

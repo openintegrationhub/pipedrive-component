@@ -37,7 +37,7 @@ async function fetchAll(options: {}, snapshot: any) {
       if (person.update_time > snapshot.lastUpdated) {
         return result.push(person);
       }
-      result.push(person);
+      //result.push(person);
       return person;
     });
 

@@ -92,6 +92,7 @@ async function processTrigger(
       // Get the lastUpdate property from the last object and attach it to snapshot
       snapshot.lastUpdated =
         persons.result[persons.result.length - 1].update_time;
+      console.log(snapshot);
       console.log(`New snapshot: ${snapshot.lastUpdated}`);
       self.emit("snapshot", snapshot);
     } else {
