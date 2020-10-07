@@ -9,5 +9,5 @@ export interface Person {
   phone: Array<string>;
   visible_to: Visibility;
   add_time: string;
-  update_time: string;
+  update_time: Date;
 }

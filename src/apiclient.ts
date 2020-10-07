@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { AxiosInstance } from "axios";
+//import  from "axios";
+import Axios, { AxiosInstance } from "axios";
 
 import { Deal } from "./models/deal";
 import { Note } from "./models/note";

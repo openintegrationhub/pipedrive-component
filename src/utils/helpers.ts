@@ -2,6 +2,7 @@
 
 import { ComponentConfig } from "../models/componentConfig";
 //import { APIClient } from "../apiclient";
+const moment = require("moment");
 
 //const BASE_URI = "https://api.pipedrive.com/v1/";
 export const request = require("request-promise").defaults({
@@ -32,16 +33,33 @@ async function fetchAll(options: {}, snapshot: any) {
     ) {
       return false;
     }
+    //    persons = persons.filter(person => new Date(person.updated_at).getTime() > snapshot.lastUpdated);
+
+    // entries.body.data.forEach((person: any) => {
+    //   //Push only this objects which were updated after last function call
+    //   if (person.update_time > snapshot.lastUpdated) {
+    //     return result.push(person);
+    //   }
+    //   //result.push(person);
+    //   return person;
+    // });
+
+    // entries.body.data.filter(
+    //   (person: any) =>
+    //     new Date(person.update_time).getTime() > snapshot.lastUpdated
+    // );
+    // entries.body.data = (person: any) =>
+    //   result.push(moment(person.update_time).isAfter(snapshot.lastUpdated));
+
     entries.body.data.forEach((person: any) => {
       //Push only this objects which were updated after last function call
-      if (person.update_time > snapshot.lastUpdated) {
+      if (moment(person.update_time).isAfter(snapshot.lastUpdated)) {
         return result.push(person);
       }
-      //result.push(person);
       return person;
     });
 
-    // Sort the objects by lastUpdate
+    // Sort the objects by update
     result.sort(
       (a, b) => parseInt(a.update_time, 10) - parseInt(b.update_time, 10)
     );

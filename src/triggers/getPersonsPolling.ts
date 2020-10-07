@@ -23,7 +23,7 @@ const { getEntries } = require("../utils/helpers");
 import { ComponentConfig } from "../models/componentConfig";
 //import { sample } from "lodash";
 // import { messages } from "ferryman-node";
-
+const moment = require("moment");
 /**
  * This method will be called from OIH platform providing following data
  *
@@ -45,7 +45,10 @@ async function processTrigger(
   const self = this;
 
   // Set the snapshot if it is not provided
-  snapshot.lastUpdated = snapshot.lastUpdated || new Date(0).getTime();
+  // if(snapshot.lastUpdated === 0){
+  //   snapshot.lastUpdated = new Date(0).getTime()
+  // }
+  snapshot.lastUpdated = snapshot.lastUpdated || moment(new Date(0));
 
   console.log("this is the snapshot i will pass", snapshot);
   console.log("this is the snapshot i will pass", snapshot.lastUpdated);
@@ -90,8 +93,11 @@ async function processTrigger(
         self.emit("data", newMessage(newElement));
       });
       // Get the lastUpdate property from the last object and attach it to snapshot
-      snapshot.lastUpdated =
-        persons.result[persons.result.length - 1].update_time;
+      snapshot.lastUpdated = moment(
+        persons.result[persons.result.length - 1].update_time
+      );
+      //  persons = persons.filter(person => new Date(person.updated_at).getTime() > snapshot.lastUpdated);
+
       console.log(snapshot);
       console.log(`New snapshot: ${snapshot.lastUpdated}`);
       self.emit("snapshot", snapshot);

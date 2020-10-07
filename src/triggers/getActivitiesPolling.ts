@@ -22,6 +22,7 @@ const { getEntries } = require("../utils/helpers");
 ///const { getToken } = require('./../utils/authentication');
 import { ComponentConfig } from "../models/componentConfig";
 //import { messages } from "ferryman-node";
+const moment = require("moment");
 
 /**
  * This method will be called from OIH platform providing following data
@@ -32,7 +33,7 @@ import { ComponentConfig } from "../models/componentConfig";
 async function processTrigger(
   msg: any,
   cfg: ComponentConfig,
-  snapshot: { lastUpdated: Date }
+  snapshot: { lastUpdated: any }
 ) {
   // Authenticate and get the token from Pipedrive
   const { applicationUid, domainId, schema, recordUid } = cfg;
@@ -43,7 +44,7 @@ async function processTrigger(
   const self = this;
 
   // Set the snapshot if it is not provided
-  snapshot.lastUpdated = snapshot.lastUpdated || new Date(0).getTime();
+  snapshot.lastUpdated = snapshot.lastUpdated || moment(new Date(0));
 
   async function emitData() {
     /** Create an OIH meta object which is required
@@ -77,8 +78,9 @@ async function processTrigger(
         self.emit("data", newMessage(newElement));
       });
       // Get the lastUpdate property from the last object and attach it to snapshot
-      snapshot.lastUpdated =
-        activities.result[activities.result.length - 1].lastUpdate;
+      snapshot.lastUpdated = moment(
+        activities.result[activities.result.length - 1].update_time
+      );
       console.log(`New snapshot: ${snapshot.lastUpdated}`);
       self.emit("snapshot", snapshot);
     } else {
